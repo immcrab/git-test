@@ -1,1 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W WEBSITE V25 // SYSTEM OVERRIDE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: #030305;
+            color: #e2e8f0;
+        }
+        /* Custom scrollbar configurations for cyber deck aesthetic */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030305;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2563eb;
+            border-radius: 2px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a855f7;
+        }
+        /* Glowing utilities */
+        .neon-border-blue {
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+        }
+        .neon-border-purple {
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
+            border: 1px solid rgba(168, 85, 247, 0.4);
+        }
+        .text-glow {
+            text-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+        }
+    </style>
+</head>
+<body class="h-screen w-screen overflow-hidden flex flex-col antialiased selection:bg-purple-500 selection:text-white">
 
+    <div id="network-alert" class="hidden bg-yellow-500/10 border-b border-yellow-500/30 text-yellow-400 px-4 py-1 text-xs flex justify-between items-center z-50">
+        <div class="flex items-center gap-2">
+            <span class="animate-ping inline-block w-2 h-2 rounded-full bg-yellow-400"></span>
+            <span>CRITICAL: NETWORK DISRUPTION DETECTED // INITIALIZING RECONNECTION RE-ROUTING POOL...</span>
+        </div>
+        <span class="text-[10px] opacity-75">RETRY_DELAY: 1500MS</span>
+    </div>
+
+    <div id="auth-gateway" class="fixed inset-0 z-50 bg-[#030305] flex items-center justify-center p-4">
+        <div class="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        
+        <div class="relative w-full max-w-md bg-[#09090e] border border-blue-500/20 p-8 rounded-lg shadow-2xl transition-all duration-500">
+            <div class="mb-8 text-center">
+                <div class="inline-block px-3 py-1 bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs tracking-widest rounded mb-3">SYSTEM SECURITY GATEWAY</div>
+                <h1 class="text-2xl font-bold tracking-tighter text-white text-glow">W WEBSITE V25</h1>
+                <p class="text-xs text-gray-500 mt-1">SECURE ACCESS REQUISITION PROTOCOL</p>
+            </div>
+
+            <div id="stage-1-container" class="space-y-4">
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2">Initialize Stage 1: System Access Key</label>
+                    <input type="password" id="access-key-input" placeholder="ENTER VALID SECURITY TOKEN..." 
+                        class="w-full bg-[#030305] border border-gray-800 focus:border-blue-500 text-blue-400 px-4 py-3 rounded text-sm focus:outline-none transition-all placeholder-gray-700">
+                </div>
+                <button onclick="verifyStage1Key()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs tracking-widest uppercase py-3 rounded transition-all duration-200 border border-blue-400/30 active:scale-[0.98]">
+                    VALIDATE KEY ENTRY
+                </button>
+                <p id="stage-1-error" class="text-xs text-red-500 font-medium hidden text-center mt-2"><i class="fas fa-exclamation-triangle mr-1"></i> ACCESS DENIED: INVALID TOKEN STRING</p>
+            </div>
+
+            <div id="stage-2-container" class="space-y-4 hidden animate-[fadeIn_0.3s_ease-out]">
+                <div class="p-3 bg-purple-500/10 border border-purple-500/20 rounded text-xs text-purple-300 text-center mb-4">
+                    <i class="fas fa-unlock mr-2"></i> STAGE 1 VALIDATION SUCCESSFUL. AWAITING FEDERATED IDENTITY.
+                </div>
+                <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2">Initialize Stage 2: Biometric/OAuth Identity</label>
+                
+                <div class="bg-[#030305] border border-gray-800 rounded p-3 mb-2">
+                    <label class="block text-[10px] text-gray-500 uppercase mb-1">Select Local Emulator Identity Profile:</label>
+                    <select id="simulated-user-node" class="w-full bg-[#09090e] text-xs text-gray-300 border border-gray-700 p-1.5 rounded focus:outline-none focus:border-purple-500">
+                        <option value="brody">Brody (Executive Admin Node - Level 4)</option>
+                        <option value="jase">Jase (Executive Admin Node - Level 4)</option>
+                        <option value="ammar">Ammar (Content Security Moderator Node)</option>
+                        <option value="brayden">Brayden (Dev Design Node)</option>
+                        <option value="dj">DJ (Asset Deployment Node)</option>
+                        <option value="jullian">Jullian (Core Engineering Node)</option>
+                        <option value="guest">Guest User (Restricted Clearance Node)</option>
+                    </select>
+                </div>
+
+                <button onclick="triggerGoogleSignIn()" class="w-full bg-white hover:bg-gray-100 text-black font-semibold text-xs tracking-widest uppercase py-3 px-4 rounded flex items-center justify-center gap-2 transition-all active:scale-[0.98]">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24"><path fill="#EA4335" d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-5.221 4.114-3.511 0-6.377-2.866-6.377-6.377s2.866-6.377 6.377-6.377c1.583 0 3.019.58 4.143 1.531l3.123-3.123C19.23 1.776 15.937 1 12.24 1c-6.075 0-11 4.925-11 11s4.925 11 11 11c5.547 0 10.354-4.013 10.87-9.715H12.24z"/></svg>
+                    PROCEED WITH GOOGLE IDENTITY
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-1 flex overflow-hidden relative">
+        
+        <aside class="w-64 bg-[#09090e] border-r border-gray-900 flex flex-col justify-between z-20 shrink-0">
+            <div>
+                <div class="p-4 border-b border-gray-900 flex items-center gap-3">
+                    <div class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
+                    <span class="font-bold text-xs tracking-widest text-white">W WEBSITE V25</span>
+                    <span id="clearance-badge" class="ml-auto text-[9px] px-1.5 py-0.5 rounded bg-gray-800 text-gray-400 font-bold uppercase">LVL 0</span>
+                </div>
+
+                <div class="p-4 bg-[#0d0d14]/50 border-b border-gray-900 flex items-center gap-3">
+                    <div id="user-avatar" class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center text-xs font-bold text-white uppercase">??</div>
+                    <div class="overflow-hidden">
+                        <p id="user-display-name" class="text-xs font-bold text-white truncate">UNAUTHENTICATED</p>
+                        <p id="user-display-role" class="text-[9px] text-gray-500 uppercase tracking-wider truncate">NODE: offline</p>
+                    </div>
+                </div>
+
+                <nav class="p-2 space-y-1">
+                    <button onclick="switchTab('live-chat')" id="nav-live-chat" class="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-blue-400 bg-blue-500/10 rounded border border-blue-500/20 transition-all text-left">
+                        <i class="fas fa-terminal w-4 text-center"></i> CORE NETWORK STREAM
+                    </button>
+                    
+                    <button onclick="switchTab('executive-panel')" id="nav-executive-panel" class="hidden w-full items-center gap-3 px-3 py-2 text-xs font-medium text-gray-400 hover:text-white hover:bg-gray-900/50 rounded transition-all text-left">
+                        <i class="fas fa-shield-halved w-4 text-center text-red-400"></i> EXECUTIVE COMMAND
+                    </button>
+                    
+                    <button onclick="switchTab('moderation-hub')" id="nav-moderation-hub" class="hidden w-full items-center gap-3 px-3 py-2 text-xs font-medium text-gray-400 hover:text-white hover:bg-gray-900/50 rounded transition-all text-left">
+                        <i class="fas fa-eye w-4 text-center text-yellow-400"></i> CONTENT SECURITY
+                    </button>
+                    
+                    <button onclick="switchTab('deployment-studio')" id="nav-deployment-studio" class="hidden w-full items-center gap-3 px-3 py-2 text-xs font-medium text-gray-400 hover:text-white hover:bg-gray-900/50 rounded transition-all text-left">
+                        <i class="fas fa-cubes w-4 text-center text-emerald-400"></i> DEPLOYMENT STUDIO
+                    </button>
+                </nav>
+            </div>
+
+            <div class="p-2 border-t border-gray-900 space-y-1">
+                <button onclick="openConfigModal()" class="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-gray-400 hover:text-white transition-all text-left">
+                    <i class="fas fa-sliders w-4 text-center"></i> FIREBASE ROUTER
+                </button>
+                <button onclick="terminateSession()" class="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-red-400/70 hover:text-red-400 hover:bg-red-500/10 rounded transition-all text-left">
+                    <i class="fas fa-power-off w-4 text-center"></i> TERMINATE SESSION
+                </button>
+            </div>
+        </aside>
+
+        <main class="flex-1 flex flex-col bg-[#030305] overflow-hidden relative">
+            
+            <div id="view-live-chat" class="flex-1 flex flex-col overflow-hidden">
+                <div class="h-12 border-b border-gray-900 px-6 flex items-center justify-between shrink-0 bg-[#06060a]">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-white tracking-widest">NETWORK STREAM PATH:</span>
+                        <span class="text-[10px] px-2 py-0.5 bg-gray-900 rounded border border-gray-800 text-purple-400">realtime/data/messages</span>
+                    </div>
+                    <div class="text-[10px] text-gray-500 flex items-center gap-4">
+                        <span>LATENCY: <span class="text-emerald-400">14ms</span></span>
+                        <span>NODE CONTEXT: <span id="node-context-id" class="text-blue-400">EMULATED</span></span>
+                    </div>
+                </div>
+
+                <div id="chat-stream-pane" class="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-[#030305] to-[#050508]">
+                    </div>
+
+                <div class="p-4 border-t border-gray-900 bg-[#06060a] shrink-0">
+                    <form id="chat-form" onsubmit="dispatchMessage(event)" class="flex gap-2 max-w-7xl mx-auto">
+                        <input type="text" id="chat-input-field" placeholder="DISPATCH CRYPTO-STRING STRING TO LOCAL ROUTER TREE..." autocomplete="off"
+                            class="flex-1 bg-[#030305] border border-gray-800 focus:border-purple-500 text-sm text-white px-4 py-3 rounded focus:outline-none transition-all placeholder-gray-700">
+                        <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white font-medium text-xs tracking-widest px-6 py-3 rounded uppercase border border-purple-400/30 transition-all active:scale-[0.98]">
+                            DISPATCH
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="view-executive-panel" class="hidden flex-1 overflow-y-auto p-6 space-y-6">
+                <div class="border-b border-red-500/20 pb-4">
+                    <h2 class="text-xl font-bold text-red-400 text-glow"><i class="fas fa-shield-halved mr-2"></i> EXECUTIVE COMMAND OVERRIDE PORTAL</h2>
+                    <p class="text-xs text-gray-500 mt-1">AUTHORIZED PERSONNEL NODES ONLY: LEVEL 4 MASTER CLEARANCE OVERRIDE TREE</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-[#09090e] border border-gray-900 p-4 rounded">
+                        <div class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Total Network Auth Nodes</div>
+                        <div class="text-2xl font-bold text-white">7 Active Entities</div>
+                        <div class="text-[10px] text-emerald-400 mt-1"><i class="fas fa-caret-up mr-1"></i> Path: `realtime/data/auth_nodes`</div>
+                    </div>
+                    <div class="bg-[#09090e] border border-gray-900 p-4 rounded">
+                        <div class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">System Memory Allotment</div>
+                        <div class="text-2xl font-bold text-white" id="exec-memory-usage">42.84 MB / 512 MB</div>
+                        <div class="w-full bg-gray-900 h-1 rounded overflow-hidden mt-2">
+                            <div class="bg-blue-500 h-full w-[12%] animate-pulse"></div>
+                        </div>
+                    </div>
+                    <div class="bg-[#09090e] border border-gray-900 p-4 rounded">
+                        <div class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Master Override Status</div>
+                        <div class="text-2xl font-bold text-red-500 neon-text">SYS_LOCK: OFF</div>
+                        <div class="text-[10px] text-gray-500 mt-1">Full Read/Write Database Access Enabled</div>
+                    </div>
+                </div>
+
+                <div class="bg-[#09090e] border border-gray-900 rounded overflow-hidden">
+                    <div class="p-4 bg-[#0d0d14] border-b border-gray-900 flex justify-between items-center">
+                        <span class="text-xs font-bold text-white tracking-wide uppercase">Realtime Database Token Auth Registry Array</span>
+                        <button onclick="alert('System Registry Database Array Flushed.')" class="text-[10px] px-2 py-1 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 rounded font-medium transition-all">FLUSH MASTER ARRAYS</button>
+                    </div>
+                    <div class="p-4 overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead>
+                                <tr class="text-gray-500 border-b border-gray-900 uppercase">
+                                    <th class="pb-2 font-medium">Node Handle</th>
+                                    <th class="pb-2 font-medium">Target Identity ID</th>
+                                    <th class="pb-2 font-medium">Clearance Role Mapping</th>
+                                    <th class="pb-2 font-medium text-right">Database Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-900 text-gray-300">
+                                <tr>
+                                    <td class="py-3 font-semibold text-white">brody</td>
+                                    <td class="py-3 text-gray-500 font-mono">usr_node_001_brdy</td>
+                                    <td class="py-3"><span class="px-2 py-0.5 bg-red-500/10 border border-red-500/30 text-red-400 rounded text-[10px] font-bold">LEVEL 4 EXEC</span></td>
+                                    <td class="py-3 text-emerald-400 text-right font-mono">MASTER_OVERRIDE</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 font-semibold text-white">jase</td>
+                                    <td class="py-3 text-gray-500 font-mono">usr_node_002_jase</td>
+                                    <td class="py-3"><span class="px-2 py-0.5 bg-red-500/10 border border-red-500/30 text-red-400 rounded text-[10px] font-bold">LEVEL 4 EXEC</span></td>
+                                    <td class="py-3 text-emerald-400 text-right font-mono">MASTER_OVERRIDE</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 font-semibold text-white">ammar</td>
+                                    <td class="py-3 text-gray-500 font-mono">usr_node_003_ammr</td>
+                                    <td class="py-3"><span class="px-2 py-0.5 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 rounded text-[10px] font-bold">MODERATOR</span></td>
+                                    <td class="py-3 text-blue-400 text-right font-mono">STREAM_WRITE</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-moderation-hub" class="hidden flex-1 overflow-y-auto p-6 space-y-6">
+                <div class="border-b border-yellow-500/20 pb-4">
+                    <h2 class="text-xl font-bold text-yellow-400 text-glow"><i class="fas fa-eye mr-2"></i> CONTENT SECURITY & MODERATION HUB</h2>
+                    <p class="text-xs text-gray-500 mt-1">NODE ALLOCATION: AMMAR // OPERATIONS TARGET: realtime/data/messages</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 space-y-4">
+                        <div class="bg-[#09090e] border border-gray-900 rounded p-4">
+                            <h3 class="text-xs font-bold text-white uppercase mb-3 tracking-wide">Live Intercept Stream Pipeline</h3>
+                            <div id="moderator-stream-container" class="space-y-2 max-h-[400px] overflow-y-auto pr-2">
+                                </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-[#09090e] border border-gray-900 rounded p-4">
+                            <h3 class="text-xs font-bold text-white uppercase mb-3 tracking-wide">Quick Action Core Controls</h3>
+                            <div class="space-y-2">
+                                <button onclick="clearAllMessagesGlobal()" class="w-full bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-500/30 font-medium text-xs py-2 px-3 rounded text-left transition-all flex items-center justify-between">
+                                    <span>PURGE ALL LIVE CHAT MESSAGES</span>
+                                    <i class="fas fa-dumpster"></i>
+                                </button>
+                                <button onclick="alert('Conduct Logs exported.')" class="w-full bg-gray-900 hover:bg-gray-800 text-gray-300 border border-gray-800 font-medium text-xs py-2 px-3 rounded text-left transition-all flex items-center justify-between">
+                                    <span>EXPORT RE-ROUTED LOGS</span>
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-[#09090e] border border-gray-900 rounded p-4 text-xs space-y-2">
+                            <div class="font-bold text-yellow-500 uppercase tracking-widest text-[10px]">TERMS-OF-CONDUCT PROTOCOLS</div>
+                            <p class="text-gray-400 text-[11px] leading-relaxed">Ensure structural text blocks meet specific terms-of-conduct guidelines. Content violating runtime safety definitions should be purged from the dynamic database tree instantaneously.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-deployment-studio" class="hidden flex-1 overflow-y-auto p-6 space-y-6">
+                <div class="border-b border-emerald-500/20 pb-4">
+                    <h2 class="text-xl font-bold text-emerald-400 text-glow"><i class="fas fa-cubes mr-2"></i> DEV DESIGN & DEPLOYMENT STUDIO</h2>
+                    <p class="text-xs text-gray-500 mt-1">ENGINEERING TEAM ASSIGNMENT: BRAYDEN, DJ, JULLIAN</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-[#09090e] border border-gray-900 rounded p-4 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between border-b border-gray-900 pb-2 mb-4">
+                                <h3 class="text-xs font-bold text-white uppercase tracking-wide"><i class="fas fa-palette text-purple-400 mr-2"></i> DJ // DARK-THEME ASSET ENGINE</h3>
+                                <span class="text-[9px] px-1.5 py-0.5 bg-purple-500/10 text-purple-400 border border-purple-500/20 rounded font-bold uppercase">UI/UX</span>
+                            </div>
+                            <p class="text-xs text-gray-400 mb-4">Drop dark-theme layout assets, interface vector scripts, or SVG clusters straight into the active UI build layout engine.</p>
+                            
+                            <div class="border-2 border-dashed border-gray-800 hover:border-purple-500/50 rounded-lg p-8 text-center bg-[#030305] transition-all cursor-pointer group">
+                                <i class="fas fa-cloud-arrow-up text-xl text-gray-600 group-hover:text-purple-400 transition-all mb-2"></i>
+                                <p class="text-xs font-semibold text-gray-400 group-hover:text-gray-300">STAGE DARK-THEME INTERFACE ASSETS</p>
+                                <p class="text-[10px] text-gray-600 mt-1">Drop file strings (.json, .svg, .css) here</p>
+                            </div>
+                        </div>
+                        <button onclick="alert('Theme manifest compiled.')" class="w-full mt-4 bg-purple-600/20 hover:bg-purple-600/30 text-purple-400 border border-purple-500/30 text-xs py-2 rounded font-medium transition-all">COMPILE THEME MANIFEST</button>
+                    </div>
+
+                    <div class="bg-[#09090e] border border-gray-900 rounded p-4 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between border-b border-gray-900 pb-2 mb-4">
+                                <h3 class="text-xs font-bold text-white uppercase tracking-wide"><i class="fas fa-code-branch text-emerald-400 mr-2"></i> BRAYDEN & JULLIAN // SYSTEM CONSOLE LOGS</h3>
+                                <span class="text-[9px] px-1.5 py-0.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded font-bold uppercase">CORE</span>
+                            </div>
+                            <p class="text-xs text-gray-400 mb-2">Track real-time compilation dependencies, module setups, and debugging loops in localhost node environments.</p>
+                            
+                            <div class="bg-[#030305] rounded border border-gray-800 p-3 font-mono text-[10px] text-emerald-400/80 space-y-1 h-36 overflow-y-auto">
+                                <div>[localhost:3000] Initialized build environment...</div>
+                                <div>[webpack] Watching source repository trees...</div>
+                                <div class="text-yellow-500">[warn] Dependency conflict detected for 'fb-realtime-stream'</div>
+                                <div>[system] Automatic patch relay structural override compiled successfully.</div>
+                                <div class="text-blue-400">[info] HMR (Hot Module Replacement) pipeline connected.</div>
+                            </div>
+                        </div>
+                        <button onclick="alert('Dependency structural scan executed. Status: 0 Faults.')" class="w-full mt-4 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 text-xs py-2 rounded font-medium transition-all">EXECUTE DEPENDENCY RESOLVER SCAN</button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <div id="config-modal" class="hidden fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
+        <div class="w-full max-w-lg bg-[#09090e] border border-gray-800 p-6 rounded-lg space-y-4">
+            <div class="flex items-center justify-between border-b border-gray-800 pb-2">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider"><i class="fas fa-sliders text-blue-400 mr-2"></i> FIREBASE REALTIME ROUTER CONFIGURATION</h3>
+                <button onclick="closeConfigModal()" class="text-gray-500 hover:text-white text-xs"><i class="fas fa-xmark"></i></button>
+            </div>
+            <p class="text-[11px] text-gray-400 leading-relaxed">Dynamic router properties for the database execution cluster. Change configuration strings below to reroute variables directly on your operational environment layer.</p>
+            
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-[10px] uppercase text-gray-500 mb-1">API Key Token</label>
+                    <input type="text" value="AIzaSyA1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6Q" class="w-full bg-[#030305] border border-gray-800 p-2 text-xs font-mono text-gray-300 rounded focus:outline-none focus:border-blue-500">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[10px] uppercase text-gray-500 mb-1">Auth Array Endpoint Node</label>
+                        <input type="text" value="realtime/data/auth_nodes" class="w-full bg-[#030305] border border-gray-800 p-2 text-xs font-mono text-gray-400 rounded cursor-not-allowed" disabled>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase text-gray-500 mb-1">Chat Log Database Tree</label>
+                        <input type="text" value="realtime/data/messages" class="w-full bg-[#030305] border border-gray-800 p-2 text-xs font-mono text-gray-400 rounded cursor-not-allowed" disabled>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="closeConfigModal()" class="bg-gray-900 hover:bg-gray-800 text-white text-xs px-4 py-2 rounded transition-all">CLOSE CONFIGS</button>
+                <button onclick="saveConfig()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-4 py-2 rounded transition-all">APPLY RE-ROUTING</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // STAGE 1: Strict System Key Requirement definition (Example: 'W25-MASTER-TOKEN')
+        const REQUISITION_KEY = "W25-MASTER-TOKEN";
+
+        // APP CORE INTERNAL DATA MEMORY STRUCTURAL ARRAYS
+        const systemAuthNodes = [
+            { id: "usr_node_001_brdy", user: "brody", name: "Brody", role: "EXECUTIVE", level: 4 },
+            { id: "usr_node_002_jase", user: "jase", name: "Jase", role: "EXECUTIVE", level: 4 },
+            { id: "usr_node_003_ammr", user: "ammar", name: "Ammar", role: "MODERATOR", level: 3 },
+            { id: "usr_node_004_bryd", user: "brayden", name: "Brayden", role: "DEV", level: 3 },
+            { id: "usr_node_005_djxx", user: "dj", name: "DJ", role: "DESIGN", level: 3 },
+            { id: "usr_node_006_jlln", user: "jullian", name: "Jullian", role: "ENGINEER", level: 3 }
+        ];
+
+        // Default Simulated Message Streams synced with database mockup engine schemas
+        let liveMessages = [
+            { id: 1, sender: "Brody", role: "EXECUTIVE", level: 4, body: "System interface V25 live. Confirming setup routing structures.", timestamp: "15:41:02" },
+            { id: 2, sender: "Jase", role: "EXECUTIVE", level: 4, body: "Confirmed. Realtime database paths mapped to target endpoints.", timestamp: "15:41:35" },
+            { id: 3, sender: "Ammar", role: "MODERATOR", level: 3, body: "Content Security stream pipeline established. Listening at target tree paths...", timestamp: "15:42:11" },
+            { id: 4, sender: "Brayden", role: "DEV", level: 3, body: "Local npm compilation complete. Dependency warning flagged and handled.", timestamp: "15:43:01" }
+        ];
+
+        let authenticatedUserNode = null;
+
+        // Verification Check for Gateway Access Key (Stage 1)
+        function verifyStage1Key() {
+            const inputKey = document.getElementById('access-key-input').value.trim();
+            const errorElement = document.getElementById('stage-1-error');
+            
+            if (inputKey === REQUISITION_KEY || inputKey.toUpperCase() === "W25") {
+                document.getElementById('stage-1-container').classList.add('hidden');
+                document.getElementById('stage-2-container').classList.remove('hidden');
+                errorElement.classList.add('hidden');
+            } else {
+                errorElement.classList.remove('hidden');
+                // Shake feedback UI response trigger action
+                const container = errorElement.parentElement;
+                container.classList.add('animate-bounce');
+                setTimeout(() => container.classList.remove('animate-bounce'), 400);
+            }
+        }
+
+        // OAuth Handler Action Routine Simulation (Stage 2)
+        function triggerGoogleSignIn() {
+            const selectedProfileValue = document.getElementById('simulated-user-node').value;
+            
+            // Search inside internal data configuration array elements
+            const identityNodeMatch = systemAuthNodes.find(node => node.user === selectedProfileValue);
+
+            if (identityNodeMatch) {
+                authenticatedUserNode = identityNodeMatch;
+                executeClearanceGrantProtocol(identityNodeMatch);
+            } else {
+                // Restricted generic View Path fallback initialization
+                authenticatedUserNode = { id: "usr_guest_node", user: "guest", name: "Guest Client", role: "RESTRICTED", level: 1 };
+                executeClearanceGrantProtocol(authenticatedUserNode);
+            }
+
+            // Cleanly transition authentication container overlay display status off
+            document.getElementById('auth-gateway').classList.add('opacity-0', 'pointer-events-none');
+            setTimeout(() => document.getElementById('auth-gateway').style.display = 'none', 500);
+
+            // Trigger dynamic runtime component refresh
+            initializeLiveChatEngineView();
+            initializeRoleBasedPortals();
+            simulateNetworkDisruptionRelayLoop();
+        }
+
+        // Apply Permission Logic structures according to matching node parameters
+        function executeClearanceGrantProtocol(node) {
+            document.getElementById('user-avatar').innerText = node.name.substring(0, 2);
+            document.getElementById('user-display-name').innerText = node.name.toUpperCase();
+            document.getElementById('user-display-role').innerText = `NODE: ${node.role}`;
+            
+            const badge = document.getElementById('clearance-badge');
+            badge.innerText = `LVL ${node.level}`;
+            
+            // Apply unique clearance design accent signifiers
+            if (node.level === 4) {
+                badge.className = "ml-auto text-[9px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 font-bold border border-red-500/30 uppercase";
+                document.getElementById('node-context-id').innerText = `${node.id.toUpperCase()} [MASTER CLEARANCE]`;
+            } else {
+                badge.className = "ml-auto text-[9px] px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-400 font-bold border border-purple-500/30 uppercase";
+                document.getElementById('node-context-id').innerText = node.id.toUpperCase();
+            }
+        }
+
+        // UI Portal Navigation Menu Rendering View Layout Matrix
+        function initializeRoleBasedPortals() {
+            if (!authenticatedUserNode) return;
+
+            const role = authenticatedUserNode.role;
+            const user = authenticatedUserNode.user;
+
+            // Privilege Assignment Array Check Logic block
+            if (user === "brody" || user === "jase" || role === "EXECUTIVE") {
+                document.getElementById('nav-executive-panel').classList.remove('hidden');
+                document.getElementById('nav-executive-panel').classList.add('flex');
+            }
+            if (user === "ammar" || role === "MODERATOR" || role === "EXECUTIVE") {
+                document.getElementById('nav-moderation-hub').classList.remove('hidden');
+                document.getElementById('nav-moderation-hub').classList.add('flex');
+            }
+            if (user === "brayden" || user === "dj" || user === "jullian" || role === "DEV" || role === "DESIGN" || role === "ENGINEER" || role === "EXECUTIVE") {
+                document.getElementById('nav-deployment-studio').classList.remove('hidden');
+                document.getElementById('nav-deployment-studio').classList.add('flex');
+            }
+        }
+
+        // Stream Data view generation logic rules
+        function initializeLiveChatEngineView() {
+            const container = document.getElementById('chat-stream-pane');
+            const modContainer = document.getElementById('moderator-stream-container');
+            
+            container.innerHTML = '';
+            if (modContainer) modContainer.innerHTML = '';
+
+            liveMessages.forEach(msg => {
+                // Determine user identity color schemas dynamically
+                let roleColor = "text-purple-400";
+                let bgBorder = "border-gray-900 bg-[#06060a]/40";
+                
+                if (msg.level === 4) {
+                    roleColor = "text-red-400 font-bold";
+                    bgBorder = "border-red-900/30 bg-red-950/10";
+                } else if (msg.role === "MODERATOR") {
+                    roleColor = "text-yellow-400";
+                } else if (msg.role === "DEV" || msg.role === "ENGINEER") {
+                    roleColor = "text-emerald-400";
+                }
+
+                // Append HTML block stream objects into main dashboard component
+                const msgTemplate = `
+                    <div class="p-3 border rounded ${bgBorder} flex gap-3 transition-all hover:bg-gray-900/20">
+                        <div class="text-[10px] text-gray-600 font-mono pt-0.5">${msg.timestamp}</div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-0.5">
+                                <span class="text-xs font-bold ${roleColor}">${msg.sender}</span>
+                                <span class="text-[8px] px-1 py-0.2 bg-gray-900 text-gray-500 rounded border border-gray-800 uppercase font-mono">${msg.role}</span>
+                            </div>
+                            <p class="text-xs text-gray-300 font-mono leading-relaxed select-text">${msg.body}</p>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += msgTemplate;
+
+                // Mirror processing streams to Ammar's Intercept dashboard window block element
+                if (modContainer) {
+                    const modTemplate = `
+                        <div class="p-2 bg-[#030305] border border-gray-900 rounded flex items-center justify-between text-xs font-mono">
+                            <div class="truncate mr-2">
+                                <span class="${roleColor} font-bold text-[11px]">${msg.sender}:</span> 
+                                <span class="text-gray-400">${msg.body}</span>
+                            </div>
+                            <button onclick="purgeSingleMessage(${msg.id})" class="text-red-400 hover:text-red-500 bg-red-500/10 p-1 px-2 rounded border border-red-500/20 text-[10px] transition-all shrink-0">
+                                PURGE
+                            </button>
+                        </div>
+                    `;
+                    modContainer.innerHTML += modTemplate;
+                }
+            });
+
+            // Handle sub-second smooth viewport scroll reset loops
+            setTimeout(() => {
+                container.scrollTop = container.scrollHeight;
+            }, 50);
+        }
+
+        // Sub-second pipeline delivery execution handler block
+        function dispatchMessage(event) {
+            event.preventDefault();
+            const inputElement = document.getElementById('chat-input-field');
+            const bodyText = inputElement.value.trim();
+            
+            if (!bodyText) return;
+            if (!authenticatedUserNode) {
+                alert("CRITICAL INTRUSION FAULT: IDENTITY TOKEN IS UNREGISTERED");
+                return;
+            }
+
+            const now = new Date();
+            const timeString = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+
+            const newMsgPayload = {
+                id: Date.now(),
+                sender: authenticatedUserNode.name,
+                role: authenticatedUserNode.role,
+                level: authenticatedUserNode.level,
+                body: bodyText,
+                timestamp: timeString
+            };
+
+            // Write into direct runtime simulated database tree array structure arrays
+            liveMessages.push(newMsgPayload);
+            inputElement.value = '';
+            
+            // Sync components instantly
+            initializeLiveChatEngineView();
+        }
+
+        // Moderation Module Core Controls logic block implementations
+        function purgeSingleMessage(id) {
+            liveMessages = liveMessages.filter(m => m.id !== id);
+            initializeLiveChatEngineView();
+        }
+
+        function clearAllMessagesGlobal() {
+            liveMessages = [];
+            initializeLiveChatEngineView();
+        }
+
+        // Tab View Router Engine Configuration switching matrix logic
+        function switchTab(targetTabId) {
+            const views = ['view-live-chat', 'view-executive-panel', 'view-moderation-hub', 'view-deployment-studio'];
+            const navs = ['nav-live-chat', 'nav-executive-panel', 'nav-moderation-hub', 'nav-deployment-studio'];
+            
+            views.forEach(v => document.getElementById(v).classList.add('hidden'));
+            navs.forEach(n => {
+                const element = document.getElementById(n);
+                if(element) {
+                    element.classList.remove('bg-blue-500/10', 'border-blue-500/20', 'text-blue-400');
+                    element.classList.add('text-gray-400');
+                }
+            });
+
+            document.getElementById(`view-${targetTabId}`).classList.remove('hidden');
+            
+            const activeNav = document.getElementById(`nav-${targetTabId}`);
+            activeNav.classList.remove('text-gray-400');
+            activeNav.classList.add('bg-blue-500/10', 'border-blue-500/20', 'text-blue-400');
+        }
+
+        // STRUCTURAL FAULT EXCEPTION HANDLING SIMULATOR
+        // Simulates connection monitoring metrics over mobile/school restricted gateway configurations
+        function simulateNetworkDisruptionRelayLoop() {
+            setInterval(() => {
+                // 8% change to emulate connection sequence warning drops cleanly without throwing errors
+                if (Math.random() < 0.08) {
+                    const alertBar = document.getElementById('network-alert');
+                    alertBar.classList.remove('hidden');
+                    
+                    // Gracefully handle internal relay loop re-routing pools automatically
+                    setTimeout(() => {
+                        alertBar.classList.add('hidden');
+                    }, 2500);
+                }
+                
+                // Track dynamic memory fluctuation changes on admin tracking graphs
+                const execMem = document.getElementById('exec-memory-usage');
+                if (execMem) {
+                    const simulatedUsage = (40 + Math.random() * 8).toFixed(2);
+                    execMem.innerText = `${simulatedUsage} MB / 512 MB`;
+                }
+            }, 6000);
+        }
+
+        // Auxiliary Router Configuration Modal functions
+        function openConfigModal() { document.getElementById('config-modal').classList.remove('hidden'); }
+        function closeConfigModal() { document.getElementById('config-modal').classList.add('hidden'); }
+        function saveConfig() { 
+            closeConfigModal(); 
+            alert("Database re-routing parameters updated successfully.");
+        }
+
+        function terminateSession() {
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>
