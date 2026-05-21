@@ -3,459 +3,467 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wwebsite // W-Messages</title>
+    <title>W-SUITE // VERSION 25</title>
     <style>
-        /* --- HIGH-END SYSTEM DESIGN TOKENS --- */
+        /* =========================================================
+           W-SUITE V25 :: DESIGN SYSTEM TOKENS
+           ========================================================= */
         :root {
+            /* Core Canvas */
             --bg-canvas: #030305;
             --bg-panel: #0c0c12;
-            --border-primary: #1a1a26;
-            --border-accent: rgba(212, 175, 55, 0.3);
+            --border-thin: #1a1a26;
             
+            /* Typography */
             --text-main: #ffffff;
-            --text-muted: #6e6e7d;
+            --text-muted: #8a8a9e;
             
-            /* Status Glows */
-            --glow-gold: #d4af37;
-            --glow-purple: #7e22ce;
-            --glow-green: #10b981;
-            --glow-red: #ef4444;
-            
-            /* Chat Gradients */
-            --gradient-self: linear-gradient(135deg, #4a2b72 0%, #1e1b4b 100%);
-            --gradient-peer: rgba(255, 255, 255, 0.03);
-            --glass-backdrop: rgba(12, 12, 18, 0.7);
+            /* Accents */
+            --accent-gold: #d4af37;
+            --accent-purple: #7e22ce;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --glass-bg: rgba(12, 12, 18, 0.6);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
 
-        body { background-color: var(--bg-canvas); color: var(--text-main); height: 100vh; overflow: hidden; display: flex; }
-
-        /* --- AUTHENTICATION LOCK INTERCEPTOR --- */
-        #auth-lock-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: var(--bg-canvas); z-index: 99999; display: flex;
-            justify-content: center; align-items: center; text-align: center;
+        body {
+            background-color: var(--bg-canvas);
+            color: var(--text-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        .auth-card { background: var(--bg-panel); border: 1px solid var(--border-primary); padding: 40px; border-radius: 8px; box-shadow: 0 0 40px rgba(0,0,0,0.8); }
-        .auth-card h2 { font-weight: 300; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; }
 
-        /* --- DOUBLE-PANE UI GRID --- */
-        .platform-grid { display: grid; grid-template-columns: 350px 1fr; width: 100vw; height: 100vh; }
+        /* =========================================================
+           1. THE PERFECT SPACIOUS FLEX HEADER
+           ========================================================= */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 4rem;
+            width: 100%;
+            box-sizing: border-box;
+            background: var(--bg-canvas);
+            border-bottom: 1px solid var(--border-thin);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-        /* LEFT PANE: CONTACTS */
-        .sidebar-pane { background: var(--bg-panel); border-right: 1px solid var(--border-primary); display: flex; flex-direction: column; }
-        .sidebar-header { padding: 25px; border-bottom: 1px solid var(--border-primary); display: flex; justify-content: space-between; align-items: center; }
-        .sidebar-header h1 { font-size: 1.1rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
-        .btn-add-chat { background: transparent; color: var(--glow-gold); border: 1px solid var(--border-accent); padding: 8px 12px; font-size: 0.8rem; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; transition: all 0.2s; }
-        .btn-add-chat:hover { background: rgba(212, 175, 55, 0.1); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
+        .logo-block {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+        }
+        .logo-w {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: linear-gradient(to right, #fff, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .logo-text { font-size: 1.1rem; font-weight: 400; letter-spacing: 4px; text-transform: uppercase; }
+
+        nav.center-nav { display: flex; gap: 3rem; }
+        nav.center-nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        nav.center-nav a:hover, nav.center-nav a.active {
+            color: var(--text-main);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Auth UI */
+        .auth-block { position: relative; }
+        .btn-login {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border-thin);
+            padding: 10px 24px;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-login:hover {
+            border-color: var(--text-main);
+            background: rgba(255,255,255,0.05);
+        }
         
-        .chat-list-scroller { flex: 1; overflow-y: auto; }
-        .chat-row { display: flex; align-items: center; gap: 15px; padding: 20px 25px; border-bottom: 1px solid rgba(255,255,255,0.02); cursor: pointer; transition: background 0.2s; }
-        .chat-row:hover, .chat-row.active { background: rgba(255,255,255,0.03); }
-        .avatar-circle { width: 45px; height: 45px; border-radius: 50%; background: #1a1a26; position: relative; display: flex; justify-content: center; align-items: center; font-weight: bold; }
-        .status-indicator { position: absolute; bottom: 0; right: 0; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--bg-panel); }
-        .status-online { background: var(--glow-green); }
-        .status-busy { background: var(--glow-gold); }
-        .status-offline { background: var(--text-muted); }
-        .chat-meta h3 { font-size: 0.95rem; font-weight: 500; margin-bottom: 4px; }
-        .chat-meta p { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
+        .user-profile {
+            display: none; /* Toggled by JS */
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+        .avatar { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--accent-purple); background: var(--bg-panel); display: flex; justify-content: center; align-items: center; font-weight: bold; }
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: var(--bg-panel);
+            border: 1px solid var(--border-thin);
+            width: 200px;
+            border-radius: 4px;
+            padding: 10px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        .user-profile:hover .dropdown { display: block; }
+        .dropdown-item { padding: 12px 20px; color: var(--text-muted); font-size: 0.85rem; text-decoration: none; display: block; transition: 0.2s; }
+        .dropdown-item:hover { color: var(--text-main); background: rgba(255,255,255,0.02); }
 
-        /* RIGHT PANE: MAIN VIEWPORT */
-        .viewport-pane { display: flex; flex-direction: column; background: var(--bg-canvas); position: relative; }
-        .viewport-header { padding: 20px 30px; background: var(--bg-panel); border-bottom: 1px solid var(--border-primary); display: flex; justify-content: space-between; align-items: center; }
-        .header-title { display: flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: 0.5px; }
-        .member-count { font-size: 0.75rem; color: var(--text-muted); background: #1a1a26; padding: 4px 10px; border-radius: 12px; }
-        
-        /* PLAYFUL CHAT BUBBLES */
-        .message-stream { flex: 1; overflow-y: auto; padding: 40px; display: flex; flex-direction: column; gap: 24px; }
-        .msg-wrapper { display: flex; flex-direction: column; max-width: 60%; position: relative; animation: fadeIn 0.3s ease; }
+        /* =========================================================
+           CORE LAYOUT CONTAINERS
+           ========================================================= */
+        main { flex: 1; padding: 4rem 4rem 8rem 4rem; max-width: 1400px; margin: 0 auto; width: 100%; }
+        .view-section { display: none; animation: fadeIn 0.4s ease forwards; }
+        .view-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .msg-wrapper.self { align-self: flex-end; align-items: flex-end; }
-        .msg-wrapper.peer { align-self: flex-start; align-items: flex-start; }
-        
-        .msg-meta { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 6px; padding: 0 4px; display: flex; gap: 8px; }
-        .interaction-row { display: flex; align-items: center; gap: 10px; width: 100%; position: relative; }
-        .self .interaction-row { flex-direction: row-reverse; }
-        
-        .bubble { padding: 14px 22px; border-radius: 24px; font-size: 0.95rem; line-height: 1.5; color: #fff; word-break: break-word; backdrop-filter: blur(8px); }
-        .self .bubble { background: var(--gradient-self); border-bottom-right-radius: 6px; box-shadow: 0 4px 15px rgba(126, 34, 206, 0.2); }
-        .peer .bubble { background: var(--gradient-peer); border-bottom-left-radius: 6px; border: 1px solid var(--border-primary); }
-        
-        .btn-retract { opacity: 0; background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.1rem; transition: opacity 0.2s, color 0.2s; }
-        .msg-wrapper:hover .btn-retract { opacity: 1; }
-        .btn-retract:hover { color: var(--glow-red); text-shadow: 0 0 10px rgba(239, 68, 68, 0.4); }
 
-        /* Media / Game Embeds */
-        .media-embed { max-width: 100%; border-radius: 12px; margin-top: 10px; border: 1px solid var(--border-primary); }
-        .game-demo-card { background: #000; border: 1px solid var(--glow-purple); padding: 20px; border-radius: 12px; text-align: center; margin-top: 10px; }
+        /* =========================================================
+           2. HOMEPAGE ARCHITECTURE
+           ========================================================= */
+        /* Cinematic Hero */
+        .hero-module { text-align: center; margin-bottom: 6rem; padding: 4rem 0; }
+        .hero-module h1 { font-size: 4rem; font-weight: 300; letter-spacing: 12px; margin-bottom: 1rem; }
+        .hero-module p { font-size: 1.2rem; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 3rem; }
+        .btn-gold {
+            background: transparent; color: var(--accent-gold); border: 1px solid var(--accent-gold);
+            padding: 15px 40px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;
+            cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+        }
+        .btn-gold:hover { background: rgba(212, 175, 55, 0.1); box-shadow: 0 0 30px rgba(212, 175, 55, 0.3); }
 
-        /* CHAT DOCK CONTROLS */
-        .dock-container { padding: 30px; background: transparent; }
-        .pill-dock { background: var(--bg-panel); border: 1px solid var(--border-primary); border-radius: 40px; display: flex; align-items: center; padding: 10px 20px; gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .input-area { flex: 1; background: transparent; border: none; color: #fff; font-size: 0.95rem; outline: none; padding: 10px; }
-        .input-area::placeholder { color: var(--text-muted); }
+        /* Tiers Matrix */
+        .tiers-matrix { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 6rem; }
+        .tier-card { background: var(--bg-panel); border: 1px solid var(--border-thin); padding: 3rem 2rem; text-align: center; transition: transform 0.3s ease; }
+        .tier-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.1); }
+        .tier-card h3 { font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1rem; }
+        .tier-card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
+        .tier-cosmos { border-color: var(--accent-purple); box-shadow: 0 0 40px rgba(126, 34, 206, 0.05); }
+
+        /* Secure Channels Teaser */
+        .teaser-card {
+            position: relative; height: 300px; margin-bottom: 6rem; border: 1px solid var(--border-thin);
+            overflow: hidden; display: flex; justify-content: center; align-items: center;
+            background: linear-gradient(135deg, #0c0c12 0%, #030305 100%);
+        }
+        /* Faux blurred chat background */
+        .teaser-bg {
+            position: absolute; top:0; left:0; width:100%; height:100%; filter: blur(8px); opacity: 0.4;
+            display: flex; flex-direction: column; gap: 20px; padding: 40px; pointer-events: none;
+        }
+        .mock-bubble { background: #1a1a26; height: 40px; border-radius: 20px; width: 60%; }
+        .mock-bubble.right { align-self: flex-end; background: var(--accent-purple); width: 40%; }
         
-        .dock-btn { background: #1a1a26; border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.2s; }
-        .dock-btn:hover { background: var(--glow-purple); box-shadow: 0 0 15px var(--glow-purple); }
-        .dock-btn.send-btn { background: var(--text-main); color: #000; }
-        .dock-btn.send-btn:hover { background: var(--glow-gold); box-shadow: 0 0 15px var(--glow-gold); }
+        .teaser-badge {
+            position: relative; z-index: 2; background: var(--glass-bg); backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.1); padding: 20px 40px; text-transform: uppercase;
+            letter-spacing: 4px; font-weight: 600; font-size: 1.1rem; box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+        }
 
-        /* --- MODALS --- */
-        .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 5000; justify-content: center; align-items: center; }
-        .modal-box { background: var(--bg-panel); border: 1px solid var(--border-primary); padding: 40px; border-radius: 8px; width: 400px; position: relative; }
-        .modal-box input { width: 100%; padding: 15px; background: #000; border: 1px solid var(--border-primary); color: #fff; outline: none; border-radius: 4px; margin-bottom: 20px; }
-        .btn-action { width: 100%; padding: 15px; background: var(--text-main); color: #000; border: none; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; border-radius: 4px; transition: all 0.2s; }
-        .btn-action:hover { background: var(--glow-gold); }
-        .close-modal { position: absolute; top: 15px; right: 20px; background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; }
+        /* Feedback Module */
+        .feedback-module { background: var(--bg-panel); border: 1px solid var(--border-thin); padding: 4rem; text-align: center; margin-bottom: 6rem; }
+        .feedback-module h2 { font-size: 1.5rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2rem; }
+        .input-group { display: flex; max-width: 600px; margin: 0 auto; gap: 10px; }
+        .input-group input {
+            flex: 1; background: var(--bg-canvas); border: 1px solid var(--border-thin);
+            color: #fff; padding: 15px 20px; font-size: 1rem; outline: none; transition: border 0.3s;
+        }
+        .input-group input:focus { border-color: var(--accent-purple); }
+        .btn-submit { background: var(--text-main); color: var(--bg-canvas); border: none; padding: 0 30px; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+        .btn-submit:hover { background: var(--accent-green); color: #fff; }
+        #feedback-success { display: none; color: var(--accent-green); margin-top: 15px; font-size: 0.9rem; letter-spacing: 1px; }
+
+        /* =========================================================
+           3. DEDICATED CREDITS PAGE
+           ========================================================= */
+        .credits-header { text-align: center; margin-bottom: 4rem; }
+        .credits-header h1 { font-size: 2.5rem; font-weight: 300; letter-spacing: 6px; text-transform: uppercase; margin-bottom: 1rem; }
+        .credits-header p { color: var(--text-muted); font-size: 1.1rem; }
+
+        .roster-matrix { display: grid; grid-template-columns: 1fr; gap: 2rem; margin-bottom: 4rem; }
+        .roster-card { background: var(--bg-panel); border: 1px solid var(--border-thin); padding: 2rem; display: flex; align-items: center; gap: 2rem; }
+        .roster-icon { font-size: 2.5rem; background: var(--bg-canvas); width: 80px; height: 80px; display: flex; justify-content: center; align-items: center; border-radius: 50%; border: 1px solid var(--border-thin); }
+        .roster-info h3 { color: var(--text-muted); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .roster-info p { font-size: 1.4rem; font-weight: 500; }
+
+        .support-node { text-align: center; padding: 2rem; border-top: 1px solid var(--border-thin); color: var(--text-muted); font-size: 0.9rem; letter-spacing: 1px; }
+
+        /* =========================================================
+           4. SYSTEM INTERCEPTOR OVERLAYS
+           ========================================================= */
+        #system-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 99999; justify-content: center; align-items: center; flex-direction: column; text-align: center;
+        }
+        .overlay-card {
+            background: var(--bg-panel); border: 1px solid var(--accent-red); padding: 4rem;
+            max-width: 600px; box-shadow: 0 0 50px rgba(239, 68, 68, 0.1);
+        }
+        .overlay-card h2 { font-weight: 300; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1rem; }
     </style>
 </head>
 <body>
 
-    <div id="auth-lock-overlay">
-        <div class="auth-card">
-            <h2>Access Restricted</h2>
-            <p style="color: var(--text-muted); font-size: 0.9rem;">Sign-in required to open secure communication terminal.</p>
-            <button class="btn-action" style="margin-top: 20px;" onclick="window.location.href='/'">Return to Homepage</button>
-        </div>
+    <div id="system-overlay">
+        <div id="overlay-content" class="overlay-card">
+            </div>
     </div>
 
-    <div class="platform-grid" id="main-interface" style="display: none;">
+    <header>
+        <div class="logo-block" onclick="navigate('home')">
+            <span class="logo-w">W</span>
+            <span class="logo-text">Wwebsite</span>
+        </div>
         
-        <aside class="sidebar-pane">
-            <div class="sidebar-header">
-                <h1>W-Messages</h1>
-                <button class="btn-add-chat" onclick="toggleModal('createChatModal', true)">➕ Create</button>
-            </div>
-            <div class="chat-list-scroller" id="contactScrollerNode">
-                </div>
-        </aside>
+        <nav class="center-nav">
+            <a onclick="navigate('home')" id="nav-home" class="active">🏠 Home</a>
+            <a href="#">🎮 Games</a>
+            <a href="#">📊 Status</a>
+            <a onclick="navigate('credits')" id="nav-credits">👥 Credits</a>
+        </nav>
 
-        <main class="viewport-pane">
+        <div class="auth-block">
+            <button class="btn-login" id="login-btn" onclick="triggerLoginModal()">Login / Sign Up</button>
             
-            <div id="empty-state" style="display:flex; height:100%; align-items:center; justify-content:center; color:var(--text-muted); flex-direction:column; gap:10px;">
-                <span style="font-size: 2rem;">🛡️</span>
-                <p style="letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem;">Select a secure pipeline to engage</p>
-            </div>
-
-            <div id="active-chat-interface" style="display: none; flex-direction: column; height: 100%;">
-                <div class="viewport-header">
-                    <div class="header-title" id="activeChatTitle">Team Pipeline <span class="member-count" id="activeChatCount">2</span></div>
-                    <button class="dock-btn" style="border-radius: 4px; width: auto; padding: 0 15px; font-size: 0.8rem;" onclick="toggleModal('permissionsModal', true)">🔒 Permissions</button>
-                </div>
-                
-                <div class="message-stream" id="messageStreamContainer">
-                    </div>
-
-                <div class="dock-container">
-                    <div class="pill-dock">
-                        <button class="dock-btn" onclick="document.getElementById('fileUploadNode').click()" title="Upload Assets">📁</button>
-                        <input type="file" id="fileUploadNode" style="display: none;" onchange="executeAssetUpload(event)">
-                        
-                        <button class="dock-btn" onclick="triggerGameDemoPayload()" title="Launch Game Demo">🚀</button>
-                        
-                        <input type="text" id="chatInputNode" class="input-area" placeholder="Type your message to the crew..." onkeypress="handleEnterKey(event)">
-                        
-                        <button class="dock-btn send-btn" onclick="transmitPayload()">➔</button>
-                    </div>
+            <div class="user-profile" id="user-profile-ui">
+                <div class="avatar" id="user-avatar-initial">U</div>
+                <div class="dropdown">
+                    <a href="#" class="dropdown-item">⚙️ Account Settings</a>
+                    <a href="#" class="dropdown-item" onclick="triggerLogout()">🚪 Disconnect</a>
                 </div>
             </div>
-        </main>
-    </div>
-
-    <div class="modal-overlay" id="createChatModal">
-        <div class="modal-box">
-            <button class="close-modal" onclick="toggleModal('createChatModal', false)">&times;</button>
-            <h3 style="margin-bottom: 20px; text-transform: uppercase; font-size: 1rem; color: var(--glow-gold);">Initialize Channel</h3>
-            <input type="text" id="targetUserInput" placeholder="Enter Teammate Email or Username">
-            <button class="btn-action" onclick="initializeSecureThread()">Establish Link</button>
         </div>
-    </div>
+    </header>
 
-    <div class="modal-overlay" id="permissionsModal">
-        <div class="modal-box">
-            <button class="close-modal" onclick="toggleModal('permissionsModal', false)">&times;</button>
-            <h3 style="margin-bottom: 20px; text-transform: uppercase; font-size: 1rem;">Security Permissions</h3>
-            <div id="permissionsList" style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">
+    <main>
+        <div id="view-home" class="view-section active">
+            
+            <section class="hero-module">
+                <h1>W-SUITE // VERSION 25</h1>
+                <p>The Next Generation Infrastructure for Gaming and Community Systems.</p>
+                <button class="btn-gold">Open Core Dashboard</button>
+            </section>
+
+            <section class="tiers-matrix">
+                <div class="tier-card">
+                    <h3>Standard Node</h3>
+                    <p>Free Public Access. Standard chat relay and baseline game access.</p>
                 </div>
-            <button class="btn-action" style="background: transparent; border: 1px solid var(--border-primary); color: #fff;" onclick="toggleModal('permissionsModal', false)">Close Terminal</button>
+                <div class="tier-card">
+                    <h3>Phantom Tier</h3>
+                    <p>Elite Access. Custom UI elements and elevated server priorities.</p>
+                </div>
+                <div class="tier-card tier-cosmos">
+                    <h3 style="color: var(--accent-purple);">Cosmos Tier</h3>
+                    <p>Master Level Access. Full platform dominion and styling modifications.</p>
+                </div>
+            </section>
+
+            <section class="teaser-card">
+                <div class="teaser-bg">
+                    <div class="mock-bubble"></div>
+                    <div class="mock-bubble right"></div>
+                    <div class="mock-bubble"></div>
+                </div>
+                <div class="teaser-badge">
+                    W-Messages — Restricted Beta Access Encrypted
+                </div>
+            </section>
+
+            <section class="feedback-module">
+                <h2>Community Suggestion Console</h2>
+                <div class="input-group">
+                    <input type="text" id="suggestion-input" placeholder="What features should the crew build next for V25?">
+                    <button class="btn-submit" onclick="submitSuggestion()">Submit</button>
+                </div>
+                <div id="feedback-success">✓ Transmission received by command server.</div>
+            </section>
+
         </div>
-    </div>
+
+        <div id="view-credits" class="view-section">
+            
+            <div class="credits-header">
+                <h1>W-Suite Engineering & Operations Command</h1>
+                <p>The core developmental infrastructure roster behind the Wwebsite V25 network.</p>
+            </div>
+
+            <div class="roster-matrix">
+                <div class="roster-card">
+                    <div class="roster-icon">👑</div>
+                    <div class="roster-info">
+                        <h3>Executive / Master Command</h3>
+                        <p>Brody Williams (Lead Architect & System Owner)</p>
+                    </div>
+                </div>
+                <div class="roster-card">
+                    <div class="roster-icon">⚙️</div>
+                    <div class="roster-info">
+                        <h3>Infrastructure & Backend Operations</h3>
+                        <p>Jase (Co-Founder / Database Architect)</p>
+                    </div>
+                </div>
+                <div class="roster-card">
+                    <div class="roster-icon">🛡️</div>
+                    <div class="roster-info">
+                        <h3>Content Security & Moderation Staff</h3>
+                        <p>Ammar, Brayden, DJ</p>
+                    </div>
+                </div>
+                <div class="roster-card">
+                    <div class="roster-icon">🎨</div>
+                    <div class="roster-info">
+                        <h3>Creative Design & Interactive Mechanics Team</h3>
+                        <p>Jullian, Owen, Isaac P, Wesley, Henry</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="support-node">
+                OFFICIAL SUPPORT PIPELINE: wwebsiteofficial@outlook.com
+            </div>
+
+        </div>
+    </main>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, push, set, remove, onValue, onChildAdded, onChildRemoved, get, update, off } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-        import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getDatabase, ref, push, onValue, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         // DEVELOPER NOTE: Replace with Version 25 production keys
         const firebaseConfig = {
             apiKey: "AIzaSy_MOCK_KEY_FOR_W_WEBSITE",
             authDomain: "wwebsite-v25.firebaseapp.com",
             databaseURL: "https://wwebsite-v25-default-rtdb.firebaseio.com",
-            projectId: "wwebsite-v25",
-            storageBucket: "wwebsite-v25.firebasestorage.app"
+            projectId: "wwebsite-v25"
         };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const rtdb = getDatabase(app);
-        const storage = getStorage(app);
+        const provider = new GoogleAuthProvider();
 
-        let activeChatId = null;
-        let currentUserData = null;
+        // --- ROUTING ENGINE ---
+        window.navigate = function(targetView) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.center-nav a').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById('view-' + targetView).classList.add('active');
+            document.getElementById('nav-' + targetView).classList.add('active');
+            window.scrollTo(0,0);
+        }
 
-        // --- 1. SYSTEM SECURITY & INITIALIZATION ---
+        // --- AUTHENTICATION FLOW ---
+        window.triggerLoginModal = function() {
+            // Using standard Google Popup for modern secure auth
+            signInWithPopup(auth, provider).catch(error => {
+                console.error("Auth Exception:", error.message);
+            });
+        }
+
+        window.triggerLogout = function() { signOut(auth); }
+
         onAuthStateChanged(auth, (user) => {
+            const loginBtn = document.getElementById('login-btn');
+            const profileUI = document.getElementById('user-profile-ui');
+            const avatarTxt = document.getElementById('user-avatar-initial');
+
             if (user) {
-                document.getElementById('auth-lock-overlay').style.display = 'none';
-                document.getElementById('main-interface').style.display = 'grid';
-                
-                // Fetch current user meta
-                get(ref(rtdb, `users/${user.uid}`)).then(snap => {
-                    currentUserData = snap.val() || { displayName: user.email.split('@')[0], presenceStatus: 'online' };
-                    // Set self to online
-                    update(ref(rtdb, `users/${user.uid}`), { presenceStatus: 'online' });
-                    attachSidebarListeners(user.uid);
-                });
+                loginBtn.style.display = 'none';
+                profileUI.style.display = 'flex';
+                avatarTxt.innerText = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
             } else {
-                document.getElementById('auth-lock-overlay').style.display = 'flex';
-                document.getElementById('main-interface').style.display = 'none';
+                loginBtn.style.display = 'block';
+                profileUI.style.display = 'none';
             }
         });
 
-        window.toggleModal = function(id, show) {
-            document.getElementById(id).style.display = show ? 'flex' : 'none';
+        // --- DATABASE WRITES: FEEDBACK MODULE ---
+        window.submitSuggestion = function() {
+            const inputEl = document.getElementById('suggestion-input');
+            const successMsg = document.getElementById('feedback-success');
+            const val = inputEl.value.trim();
+            
+            if(!val) return;
+
+            push(ref(rtdb, 'suggestions'), {
+                text: val,
+                timestamp: Date.now(),
+                user: auth.currentUser ? auth.currentUser.uid : 'anonymous'
+            }).then(() => {
+                inputEl.value = '';
+                successMsg.style.display = 'block';
+                setTimeout(() => { successMsg.style.display = 'none'; }, 4000);
+            }).catch(err => alert('Transmission failed.'));
         }
 
-        // --- 2. THREAD CREATION MATRIX ---
-        window.initializeSecureThread = function() {
-            const targetQuery = document.getElementById('targetUserInput').value.trim().toLowerCase();
-            if(!targetQuery) return;
+        // --- GLOBAL INTERCEPTOR HOOKS ---
+        let initialLoad = true;
 
-            get(ref(rtdb, 'users')).then(snapshot => {
-                const users = snapshot.val() || {};
-                let targetId = null;
-                let targetData = null;
+        // 1. Listen for Global Reset
+        onValue(ref(rtdb, 'system/globalReset'), (snapshot) => {
+            if (initialLoad) {
+                initialLoad = false; 
+                return; // Ignore first read to prevent infinite loop on boot
+            }
+            if (snapshot.exists()) {
+                console.warn("GLOBAL RESET TRIGGERED BY COMMAND. Flushing cache...");
+                window.location.reload();
+            }
+        });
 
-                for(let uid in users) {
-                    if((users[uid].email && users[uid].email.toLowerCase() === targetQuery) || 
-                       (users[uid].displayName && users[uid].displayName.toLowerCase() === targetQuery)) {
-                        targetId = uid;
-                        targetData = users[uid];
-                        break;
+        // 2. Listen for System Status Overrides
+        onValue(ref(rtdb, 'system/status'), (snapshot) => {
+            const status = snapshot.val();
+            const overlay = document.getElementById('system-overlay');
+            const content = document.getElementById('overlay-content');
+
+            // Reset overlay state
+            overlay.style.display = 'none';
+            overlay.style.background = 'rgba(0,0,0,0.95)';
+            content.style.borderColor = 'var(--border-thin)';
+
+            if (status === "SHUTDOWN") {
+                overlay.style.display = 'flex';
+                overlay.style.background = '#000000'; // Solid black
+                content.style.borderColor = 'var(--accent-red)';
+                content.innerHTML = `<h2 style="color:var(--accent-red)">System Offline</h2><p>W-Suite System Offline — Operations Terminated by Executive Command.</p>`;
+            } 
+            else if (status === "UPDATING") {
+                overlay.style.display = 'flex';
+                content.style.borderColor = 'var(--accent-gold)';
+                content.innerHTML = `<h2 style="color:var(--accent-gold)">Maintenance Node Active</h2><p>Wwebsite is currently updating platform dependencies. Please stand by.</p>`;
+            } 
+            else if (status === "TESTING") {
+                // Ensure auth state is resolved before blocking
+                setTimeout(() => {
+                    const currentUser = auth.currentUser;
+                    if (!currentUser || currentUser.email !== "brodywilliams0226@gmail.com") {
+                        overlay.style.display = 'flex';
+                        content.style.borderColor = 'var(--accent-purple)';
+                        content.innerHTML = `<h2 style="color:var(--accent-purple)">Restricted Access</h2><p>Closed Staging Beta. Master Command authorization required.</p>`;
                     }
-                }
-
-                if(!targetId) { alert("Node unreachable: Teammate not found."); return; }
-                if(targetId === auth.currentUser.uid) { alert("Loopback block: Cannot connect to self."); return; }
-
-                const unifiedChatId = [auth.currentUser.uid, targetId].sort().join("_");
-                
-                // Establish bidirectional link
-                set(ref(rtdb, `users/${auth.currentUser.uid}/activeChats/${unifiedChatId}`), { targetId: targetId, targetName: targetData.displayName, type: 'direct' });
-                set(ref(rtdb, `users/${targetId}/activeChats/${unifiedChatId}`), { targetId: auth.currentUser.uid, targetName: currentUserData.displayName, type: 'direct' });
-                
-                toggleModal('createChatModal', false);
-                document.getElementById('targetUserInput').value = '';
-            });
-        }
-
-        function attachSidebarListeners(uid) {
-            onValue(ref(rtdb, `users/${uid}/activeChats`), (snapshot) => {
-                const scroller = document.getElementById('contactScrollerNode');
-                scroller.innerHTML = '';
-                const chats = snapshot.val();
-                
-                if(!chats) return;
-
-                Object.keys(chats).forEach(chatId => {
-                    const meta = chats[chatId];
-                    // Real-time presence fetch
-                    get(ref(rtdb, `users/${meta.targetId}/presenceStatus`)).then(statusSnap => {
-                        const status = statusSnap.val() || 'offline';
-                        const statusColorClass = status === 'online' ? 'status-online' : (status === 'busy' ? 'status-busy' : 'status-offline');
-                        const initials = meta.targetName.substring(0,2).toUpperCase();
-                        const isActive = chatId === activeChatId ? 'active' : '';
-
-                        const rowHTML = `
-                            <div class="chat-row ${isActive}" onclick="openChatPipeline('${chatId}', '${meta.targetName}', '${meta.targetId}')">
-                                <div class="avatar-circle">
-                                    ${initials}
-                                    <div class="status-indicator ${statusColorClass}"></div>
-                                </div>
-                                <div class="chat-meta">
-                                    <h3>${meta.targetName}</h3>
-                                    <p>Encrypted stream active...</p>
-                                </div>
-                            </div>
-                        `;
-                        scroller.insertAdjacentHTML('beforeend', rowHTML);
-                    });
-                });
-            });
-        }
-
-        // --- 3. ACTIVE CHAT VIEWPORT & PLAYFUL BUBBLES ---
-        window.openChatPipeline = function(chatId, targetName, targetId) {
-            if(activeChatId) {
-                off(ref(rtdb, `chats/${activeChatId}/messages`), 'child_added');
-                off(ref(rtdb, `chats/${activeChatId}/messages`), 'child_removed');
+                }, 1000); // Small buffer to let Firebase auth resolve on hard refresh
             }
-
-            activeChatId = chatId;
-            document.getElementById('empty-state').style.display = 'none';
-            document.getElementById('active-chat-interface').style.display = 'flex';
-            document.getElementById('activeChatTitle').innerText = targetName;
-            
-            const stream = document.getElementById('messageStreamContainer');
-            stream.innerHTML = '';
-
-            const msgRef = ref(rtdb, `chats/${chatId}/messages`);
-            
-            onChildAdded(msgRef, (snapshot) => {
-                renderBubble(snapshot.key, snapshot.val());
-                triggerOfflineNotificationLogic(targetId, snapshot.val());
-            });
-
-            // REAL-TIME DELETION LISTENER
-            onChildRemoved(msgRef, (snapshot) => {
-                const domNode = document.getElementById(`msg-${snapshot.key}`);
-                if(domNode) {
-                    // Smooth exit animation
-                    domNode.style.transition = 'all 0.3s ease';
-                    domNode.style.opacity = '0';
-                    domNode.style.transform = 'scale(0.9)';
-                    setTimeout(() => domNode.remove(), 300);
-                }
-            });
-        }
-
-        function renderBubble(msgId, data) {
-            const stream = document.getElementById('messageStreamContainer');
-            const isSelf = data.senderId === auth.currentUser.uid;
-            const layoutClass = isSelf ? 'self' : 'peer';
-            const time = new Date(data.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            
-            let contentBlock = `<div class="bubble">${data.text}</div>`;
-            
-            // Handle Media Types
-            if(data.type === 'file') {
-                contentBlock = `<div class="bubble"><img src="${data.fileUrl}" class="media-embed"><br/><span style="font-size:0.75rem; color:#ccc;">${data.text}</span></div>`;
-            } else if (data.type === 'game_demo') {
-                contentBlock = `
-                    <div class="bubble game-demo-card">
-                        <h4 style="margin-bottom: 10px; color: var(--glow-gold);">🎮 Interactive Demo Initiated</h4>
-                        <button class="btn-action" style="padding: 8px 15px; font-size:0.8rem;" onclick="alert('Launching W-Suite Sandbox Engine...')">Playtest Now</button>
-                    </div>`;
-            }
-
-            const retractBtn = isSelf ? `<button class="btn-retract" title="Retract Transmission" onclick="retractMessage('${msgId}')">🗑️</button>` : '';
-
-            const html = `
-                <div class="msg-wrapper ${layoutClass}" id="msg-${msgId}">
-                    <div class="msg-meta"><span>${data.senderName}</span> • <span>${time}</span></div>
-                    <div class="interaction-row">
-                        ${contentBlock}
-                        ${retractBtn}
-                    </div>
-                </div>
-            `;
-            stream.insertAdjacentHTML('beforeend', html);
-            stream.scrollTop = stream.scrollHeight;
-        }
-
-        // --- 4. MESSAGE MANAGEMENT & RETRACTION ---
-        window.transmitPayload = function() {
-            if(!activeChatId) return;
-            const input = document.getElementById('chatInputNode');
-            const text = input.value.trim();
-            if(!text) return;
-
-            push(ref(rtdb, `chats/${activeChatId}/messages`), {
-                senderId: auth.currentUser.uid,
-                senderName: currentUserData.displayName,
-                text: text,
-                type: 'text',
-                timestamp: Date.now()
-            });
-            input.value = '';
-        }
-
-        window.handleEnterKey = function(e) { if(e.key === 'Enter') transmitPayload(); }
-
-        window.retractMessage = function(msgId) {
-            if(!activeChatId) return;
-            remove(ref(rtdb, `chats/${activeChatId}/messages/${msgId}`))
-                .catch(err => console.error("Database hard-delete failed:", err));
-        }
-
-        // --- 5. CHAT DOCK: FILE PIPELINE & DEMO INJECTION ---
-        window.executeAssetUpload = function(e) {
-            const file = e.target.files[0];
-            if(!file || !activeChatId) return;
-
-            const storagePath = storageRef(storage, `chat_assets/${activeChatId}/${Date.now()}_${file.name}`);
-            
-            uploadBytes(storagePath, file).then((snapshot) => {
-                getDownloadURL(snapshot.ref).then((url) => {
-                    push(ref(rtdb, `chats/${activeChatId}/messages`), {
-                        senderId: auth.currentUser.uid,
-                        senderName: currentUserData.displayName,
-                        text: `Asset Deployed: ${file.name}`,
-                        type: 'file',
-                        fileUrl: url,
-                        timestamp: Date.now()
-                    });
-                });
-            });
-        }
-
-        window.triggerGameDemoPayload = function() {
-            if(!activeChatId) return;
-            push(ref(rtdb, `chats/${activeChatId}/messages`), {
-                senderId: auth.currentUser.uid,
-                senderName: currentUserData.displayName,
-                text: "Game Demo Link",
-                type: 'game_demo',
-                timestamp: Date.now()
-            });
-        }
-
-        // --- 6. AUTOMATED SYSTEM ALERTS (EMAILJS / RESEND LOGIC) ---
-        function triggerOfflineNotificationLogic(targetId, msgData) {
-            // Prevent alerting self
-            if (msgData.senderId === targetId) return;
-
-            get(ref(rtdb, `users/${targetId}`)).then(snap => {
-                const targetUser = snap.val();
-                if(!targetUser) return;
-
-                // If user is offline or busy, dispatch alert payload
-                if(targetUser.presenceStatus === 'offline' || targetUser.presenceStatus === 'busy') {
-                    
-                    const emailPayload = {
-                        to_email: targetUser.email,
-                        subject: `[W-Suite Terminal] Unread Transmission From ${msgData.senderName}`,
-                        message: `Hello ${targetUser.displayName}, you have unread platform updates waiting in your W-Messages secure terminal pipeline.\n\n` +
-                                 `Snippet: "${msgData.text}"\n\n` +
-                                 `--------------------------------------------------\n` +
-                                 `🤖 This is an automated notification generated by the W-Suite Network Operations Command center. Please do not reply directly to this mailbox node.`
-                    };
-
-                    /* * DEV NOTE: Frontend Fetch Call representation. 
-                     * In production, proxy this through a Firebase Cloud Function.
-                     */
-                    console.log("System Notice: Dispatching offline email payload to mail server...", emailPayload);
-                    
-                    // fetch('https://api.resend.com/emails', {
-                    //     method: 'POST',
-                    //     headers: { 'Authorization': 'Bearer YOUR_API_KEY', 'Content-Type': 'application/json' },
-                    //     body: JSON.stringify({ ... })
-                    // });
-                }
-            });
-        }
+        });
     </script>
 </body>
 </html>
