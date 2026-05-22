@@ -126,7 +126,7 @@
       border: 1px solid var(--border-charcoal);
       padding: 0.75rem 1.75rem;
       font-family: var(--font-mono);
-      font-size: 0.8 /rem;
+      font-size: 0.8rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       cursor: pointer;
@@ -298,31 +298,46 @@
     .terminal-card h2 { font-family: var(--font-serif); font-weight: 400; font-size: 2.5rem; margin-bottom: 1rem; }
 
     /* ─────────────────────────────────────────────────────────
-       7. STATE E: AUTHENTIC SYSTEM SHUTDOWN SCREEN
+       7. STATE E: PREMIUM SYSTEM SHUTDOWN SYSTEM ERROR OVERLAY
        ───────────────────────────────────────────────────────── */
     #shutdown-mode-frame {
-      display: none; position: fixed; inset: 0; background: #000000; z-index: 100000;
-      flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #ffffff;
+      display: none; position: fixed; inset: 0; background: #050508; z-index: 100000;
+      flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem;
     }
     #shutdown-mode-frame.show { display: flex; }
     
-    /* Elegant premium spinner animation */
-    .shutdown-spinner {
-      width: 40px; height: 40px;
-      border: 2px solid rgba(255, 255, 255, 0.05);
-      border-top: 2px solid #ffffff;
-      border-radius: 50%;
-      animation: spinAnimation 1.2s linear infinite;
-      margin-bottom: 2rem;
+    .error-card {
+      background: #0c0c12;
+      border: 1px solid rgba(207, 102, 121, 0.3);
+      padding: 5rem 3rem;
+      max-width: 650px;
+      width: 100%;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8);
+      position: relative;
     }
-    .shutdown-text {
-      font-family: var(--font-sans); font-weight: 300; font-size: 1.2rem;
-      letter-spacing: 0.05em; color: #dddddd;
+    .error-card::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--accent-red);
     }
-    @keyframes spinAnimation {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    .error-icon {
+      font-size: 3rem; margin-bottom: 1.5rem; color: var(--accent-red); opacity: 0.9;
     }
+    .error-card h2 {
+      font-family: var(--font-serif); font-weight: 400; font-size: 2.5rem; color: #f0ece2; margin-bottom: 1.5rem; letter-spacing: -0.02em;
+    }
+    .error-card h2 em {
+      font-style: italic; color: var(--accent-red);
+    }
+    .error-divider {
+      width: 40px; height: 1px; background: rgba(207, 102, 121, 0.4); margin: 1.5rem auto;
+    }
+    .error-log-box {
+      background: #030305; border: 1px solid #1a1a26; padding: 1.5rem; text-align: left;
+      font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted-gray); line-height: 1.8; margin-top: 2rem;
+    }
+    .error-log-line {
+      display: flex; gap: 0.75rem;
+    }
+    .error-log-tag { color: var(--accent-red); font-weight: 600; }
 
     #confetti-layer { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 15; }
     footer.global-footer {
@@ -466,8 +481,29 @@
   </div>
 
   <div id="shutdown-mode-frame">
-    <div class="shutdown-spinner"></div>
-    <div class="shutdown-text">Shutting down...</div>
+    <div class="error-card">
+      <div class="error-icon">⚠️</div>
+      <h2>System <em>Shutdown</em></h2>
+      <div class="error-divider"></div>
+      <p style="color: #e4e0d5; font-size: 0.95rem; max-width: 500px; margin: 0 auto; line-height: 1.7;">
+        This platform interface has been intentionally taken offline by administrative authority. Active service connections have been systematically dissolved.
+      </p>
+      
+      <div class="error-log-box">
+        <div class="error-log-line">
+          <span class="error-log-tag">[STATUS]</span>
+          <span>TERMINATED_BY_ADMINISTRATION</span>
+        </div>
+        <div class="error-log-line">
+          <span class="error-log-tag">[CODE]</span>
+          <span>ERR_W_SUITE_LINK_BROKEN_503</span>
+        </div>
+        <div class="error-log-line">
+          <span class="error-log-tag">[INFO]</span>
+          <span>Core assets locked. Global route distribution suspended indefinitely.</span>
+        </div>
+      </div>
+    </div>
   </div>
 
 
@@ -619,7 +655,7 @@
       }
     });
 
-    // ── DATABASE ROUTING MODULE 2: SYSTEM GATEKEEPER (WITH ACTUAL SHUTDOWN CONTROL) ──
+    // ── DATABASE ROUTING MODULE 2: SYSTEM GATEKEEPER ──
     const systemStatusRef = ref(db, 'system');
     onValue(systemStatusRef, (snapshot) => {
       const sysData = snapshot.val();
@@ -627,11 +663,11 @@
         const dynamicStatusToken = sysData.status.toUpperCase();
         statusTextEl.textContent = sysData.status;
 
-        // Reset state wrappers visibility conditions safely
+        // Reset overlays visibility conditions cleanly
         shutdownModeFrame.classList.remove('show');
 
         if (dynamicStatusToken === "SHUTDOWN") {
-          // Absolute system dark lockdown block layout state
+          // Absolute Premium Administrative System Lock
           shutdownModeFrame.classList.add('show');
           productionCanvas.style.display = 'none';
           creditsCanvas.style.display = 'none';
