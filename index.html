@@ -126,7 +126,7 @@
       border: 1px solid var(--border-charcoal);
       padding: 0.75rem 1.75rem;
       font-family: var(--font-mono);
-      font-size: 0.8rem;
+      font-size: 0.8 /rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       cursor: pointer;
@@ -241,7 +241,7 @@
     .roster-card p { font-family: var(--font-sans); font-size: 0.85rem; color: var(--muted-gray); }
 
     /* ─────────────────────────────────────────────────────────
-       5. STATE C: MAINTENANCE & LOCKDOWN TERMINAL OVERLAY
+       5. STATE C: UPDATE & LOCKDOWN TERMINAL OVERLAY
        ───────────────────────────────────────────────────────── */
     #maintenance-overlay {
       display: flex; position: fixed; inset: 0; background: var(--bg); z-index: 99999;
@@ -273,6 +273,7 @@
     .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-purple); }
     .status-dot.active-green { background: var(--accent-green); box-shadow: 0 0 8px var(--accent-green); }
     .status-dot.active-orange { background: #FF9800; box-shadow: 0 0 8px #FF9800; }
+    .status-dot.active-red { background: var(--accent-red); box-shadow: 0 0 8px var(--accent-red); }
 
     #live-wrapup-frame {
       display: none; position: absolute; inset: 0; background: var(--bg);
@@ -295,6 +296,33 @@
     }
     .terminal-header { font-family: var(--font-mono); color: var(--accent-purple); font-size: 0.75rem; letter-spacing: 0.2em; margin-bottom: 1.5rem; }
     .terminal-card h2 { font-family: var(--font-serif); font-weight: 400; font-size: 2.5rem; margin-bottom: 1rem; }
+
+    /* ─────────────────────────────────────────────────────────
+       7. STATE E: AUTHENTIC SYSTEM SHUTDOWN SCREEN
+       ───────────────────────────────────────────────────────── */
+    #shutdown-mode-frame {
+      display: none; position: fixed; inset: 0; background: #000000; z-index: 100000;
+      flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #ffffff;
+    }
+    #shutdown-mode-frame.show { display: flex; }
+    
+    /* Elegant premium spinner animation */
+    .shutdown-spinner {
+      width: 40px; height: 40px;
+      border: 2px solid rgba(255, 255, 255, 0.05);
+      border-top: 2px solid #ffffff;
+      border-radius: 50%;
+      animation: spinAnimation 1.2s linear infinite;
+      margin-bottom: 2rem;
+    }
+    .shutdown-text {
+      font-family: var(--font-sans); font-weight: 300; font-size: 1.2rem;
+      letter-spacing: 0.05em; color: #dddddd;
+    }
+    @keyframes spinAnimation {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
 
     #confetti-layer { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 15; }
     footer.global-footer {
@@ -437,6 +465,11 @@
     </div>
   </div>
 
+  <div id="shutdown-mode-frame">
+    <div class="shutdown-spinner"></div>
+    <div class="shutdown-text">Shutting down...</div>
+  </div>
+
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -482,6 +515,7 @@
     const overlayDateLabel = document.getElementById('overlay-date-row-label');
     const liveWrapupFrame = document.getElementById('live-wrapup-frame');
     const testingModeFrame = document.getElementById('testing-mode-frame');
+    const shutdownModeFrame = document.getElementById('shutdown-mode-frame');
     
     const tabHome = document.getElementById('tab-home-trigger');
     const tabCredits = document.getElementById('tab-credits-trigger');
@@ -585,7 +619,7 @@
       }
     });
 
-    // ── DATABASE ROUTING MODULE 2: SYSTEM GATEKEEPER ──
+    // ── DATABASE ROUTING MODULE 2: SYSTEM GATEKEEPER (WITH ACTUAL SHUTDOWN CONTROL) ──
     const systemStatusRef = ref(db, 'system');
     onValue(systemStatusRef, (snapshot) => {
       const sysData = snapshot.val();
@@ -593,7 +627,16 @@
         const dynamicStatusToken = sysData.status.toUpperCase();
         statusTextEl.textContent = sysData.status;
 
-        if (dynamicStatusToken === "ONLINE") {
+        // Reset state wrappers visibility conditions safely
+        shutdownModeFrame.classList.remove('show');
+
+        if (dynamicStatusToken === "SHUTDOWN") {
+          // Absolute system dark lockdown block layout state
+          shutdownModeFrame.classList.add('show');
+          productionCanvas.style.display = 'none';
+          creditsCanvas.style.display = 'none';
+          if (clockLoopId) clearTimeout(clockLoopId);
+        } else if (dynamicStatusToken === "ONLINE") {
           statusDotEl.className = "status-dot active-green";
           maintenanceOverlay.style.display = 'none';
           productionCanvas.style.display = 'flex';
@@ -607,7 +650,8 @@
           testingModeFrame.classList.add('show');
           if (clockLoopId) clearTimeout(clockLoopId);
         } else {
-          statusDotEl.className = "status-dot";
+          // Standard Update / Maintenance layout mode handler
+          statusDotEl.className = "status-dot active-red";
           maintenanceOverlay.style.display = 'flex';
           productionCanvas.style.display = 'none';
           creditsCanvas.style.display = 'none';
