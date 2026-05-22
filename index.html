@@ -201,13 +201,15 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-    // Fully built configuration parameters for your database connection
+    // 🌟 FULLY LOADED VALID PRODUCTION CREDENTIALS
     const firebaseConfig = {
-      apiKey: "AIzaSyAs7W8Xp_bVnZ8Y9m7Q6k5j4h3g2f1e0d", // Placeholder added to allow safe API negotiation
+      apiKey: "AIzaSyChx24EPK7w1f7SGVYraI993TkC89ZxiZo",
       authDomain: "wwebsite-ae20b.firebaseapp.com",
       databaseURL: "https://wwebsite-ae20b-default-rtdb.firebaseio.com",
       projectId: "wwebsite-ae20b",
-      storageBucket: "wwebsite-ae20b.appspot.com"
+      storageBucket: "wwebsite-ae20b.firebasestorage.app",
+      messagingSenderId: "1073638981689",
+      appId: "1:1073638981689:web:1fceb547ed3704b782cde8"
     };
 
     // Initialize Firebase
@@ -356,7 +358,7 @@
           msgEl.innerHTML = "We are currently making some exciting improvements and updating the website! We will be back up and running shortly. Thank you so much for your patience!";
         }
 
-        // Dynamically track and display the system status node
+        // Realtime dynamic sync for the bottom status field
         if (data.systemStatus) {
           systemStatusEl.textContent = data.systemStatus;
         } else {
@@ -365,7 +367,6 @@
 
         if(timerLoopId) clearTimeout(timerLoopId);
 
-        // Safety fallback check for text formatting states
         if (isNaN(TARGET_MS) || isNaN(START_MS)) {
           hEl.textContent = mEl.textContent = sEl.textContent = '--';
           bar.style.width = '0%';
