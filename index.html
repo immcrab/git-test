@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>W-WEBSITE // VERSION 2.1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
     <style>
         /* =========================================================
            W-SUITE V25 :: DESIGN SYSTEM TOKENS
@@ -24,6 +25,10 @@
             --accent-green: #10b981;
             --accent-red: #ef4444;
             --glass-bg: rgba(12, 12, 18, 0.6);
+
+            /* Interceptor Stylesheet Integration */
+            --up-bg: #0b0c10; --up-fg: #f0ece2; --up-accent: #c8a96e;
+            --up-muted: #5a5750; --up-line: rgba(200,169,110,0.25);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
@@ -106,7 +111,7 @@
         }
         
         .user-profile {
-            display: none; /* Toggled by JS */
+            display: none; 
             align-items: center;
             gap: 12px;
             cursor: pointer;
@@ -322,7 +327,7 @@
         .support-node { text-align: center; padding: 2rem; border-top: 1px solid var(--border-thin); color: var(--text-muted); font-size: 0.9rem; letter-spacing: 1px; }
 
         /* =========================================================
-           4. SYSTEM INTERCEPTOR OVERLAYS
+           4. SYSTEM INTERCEPTOR OVERLAYS & ANIMATIONS
            ========================================================= */
         #system-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -333,6 +338,49 @@
             max-width: 600px; box-shadow: 0 0 50px rgba(239, 68, 68, 0.1);
         }
         .overlay-card h2 { font-weight: 300; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1rem; }
+
+        /* Embedded Style Rules for Premium Construction Layout */
+        .up-body-wrapper {
+            position: absolute; inset: 0; width: 100%; height: 100%; background: var(--up-bg); color: var(--up-fg);
+            font-family: 'DM Mono', monospace; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden;
+        }
+        .up-body-wrapper::before {
+            content: ''; position: absolute; inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            opacity: 0.4; pointer-events: none; z-index: 0;
+        }
+        .rule-top, .rule-bottom {
+            position: absolute; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--up-accent), transparent); opacity: 0.4;
+        }
+        .rule-top { top: 48px; } .rule-bottom { bottom: 48px; }
+        .corner { position: absolute; width: 24px; height: 24px; border-color: var(--up-accent); border-style: solid; opacity: 0.5; }
+        .corner.tl { top: 32px; left: 32px; border-width: 1px 0 0 1px; }
+        .corner.tr { top: 32px; right: 32px; border-width: 1px 1px 0 0; }
+        .corner.bl { bottom: 32px; left: 32px; border-width: 0 0 1px 1px; }
+        .corner.br { bottom: 32px; right: 32px; border-width: 0 1px 1px 0; }
+        .up-container {
+            position: relative; z-index: 1; text-align: center; padding: 2rem; max-width: 680px;
+            animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        .up-label { font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--up-accent); margin-bottom: 2.5rem; animation: fadeUp 1s 0.1s both; }
+        .up-container h1 {
+            font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 7vw, 5rem); font-weight: 400;
+            line-height: 1.1; letter-spacing: -0.01em; margin-bottom: 0.2em; color: var(--up-fg); animation: fadeUp 1s 0.2s both;
+        }
+        .up-container h1 em { font-style: italic; color: var(--up-accent); }
+        .up-divider { width: 48px; height: 1px; background: var(--up-accent); margin: 2rem auto; animation: expandWidth 1s 0.4s both; }
+        .up-message { font-size: 0.8rem; letter-spacing: 0.08em; color: var(--up-muted); line-height: 2; margin-bottom: 2.5rem; animation: fadeUp 1s 0.5s both; }
+        .up-status { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--up-muted); animation: fadeUp 1s 0.6s both; }
+        .up-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--up-accent); animation: pulse 2s ease-in-out infinite; }
+        .geo { position: absolute; border: 1px solid var(--up-line); border-radius: 50%; pointer-events: none; }
+        .geo-1 { width: 380px; height: 380px; top: -140px; right: -120px; animation: rotateSlow 40s linear infinite; }
+        .geo-2 { width: 200px; height: 200px; bottom: -60px; left: -60px; animation: rotateSlow 28s linear infinite reverse; }
+        
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes expandWidth { from { width: 0; opacity: 0; } to { width: 48px; opacity: 1; } }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
+        @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -369,8 +417,7 @@
     </div>
 
     <div id="system-overlay">
-        <div id="overlay-content" class="overlay-card">
-            </div>
+        <div id="overlay-content" style="width: 100%; height: 100%;"></div>
     </div>
 
     <header>
@@ -484,7 +531,7 @@
             </div>
 
             <div class="support-node">
-                OFFICIAL SUPPORT PIPELINE: wwebsiteofficial@outlook.com (Phone Number Coming Soon)
+                OFFICIAL SUPPORT PIPELINE: wwebsiteofficial@outlook.com
             </div>
 
         </div>
@@ -535,7 +582,7 @@
 
         window.openAuthModal = function() {
             authModal.classList.add('visible');
-            errorMsg.style.display = 'none';
+            if (errorMsg) errorMsg.style.display = 'none';
         }
 
         window.closeAuthModal = function() {
@@ -546,7 +593,7 @@
 
         window.toggleAuthMode = function() {
             isLoginMode = !isLoginMode;
-            errorMsg.style.display = 'none';
+            if (errorMsg) errorMsg.style.display = 'none';
             if(isLoginMode) {
                 authTitle.innerText = "System Login";
                 authSubmitBtn.innerText = "Authenticate";
@@ -560,7 +607,6 @@
             }
         }
 
-        // Close modal when clicking outside of it
         window.onclick = function(event) {
             if (event.target == authModal) {
                 closeAuthModal();
@@ -568,8 +614,6 @@
         }
 
         // --- FIREBASE AUTHENTICATION FUNCTIONS ---
-        
-        // Email/Password Login & Signup
         window.handleEmailAuth = function() {
             const email = document.getElementById('auth-email').value.trim();
             const password = document.getElementById('auth-password').value.trim();
@@ -581,24 +625,15 @@
 
             if(isLoginMode) {
                 signInWithEmailAndPassword(auth, email, password)
-                    .then((userCredential) => {
-                        closeAuthModal();
-                    })
-                    .catch((error) => {
-                        showError(error.message);
-                    });
+                    .then(() => closeAuthModal())
+                    .catch((error) => showError(error.message));
             } else {
                 createUserWithEmailAndPassword(auth, email, password)
-                    .then((userCredential) => {
-                        closeAuthModal();
-                    })
-                    .catch((error) => {
-                        showError(error.message);
-                    });
+                    .then(() => closeAuthModal())
+                    .catch((error) => showError(error.message));
             }
         }
 
-        // Google Sign-in
         window.triggerGoogleLogin = function() {
             signInWithPopup(auth, provider).then(() => {
                 closeAuthModal();
@@ -607,91 +642,122 @@
             });
         }
 
-        window.triggerLogout = function() { signOut(auth); }
-
-        function showError(message) {
-            errorMsg.innerText = message.replace('Firebase: ', ''); // Clean up error string
-            errorMsg.style.display = 'block';
+        window.triggerLogout = function() {
+            signOut(auth).catch(error => console.error("Logout Error:", error));
         }
 
-        // Watch for Authentication State Changes
+        function showError(msg) {
+            if (errorMsg) {
+                errorMsg.innerText = msg;
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        // Track Auth States
         onAuthStateChanged(auth, (user) => {
             const loginBtn = document.getElementById('login-btn');
             const profileUI = document.getElementById('user-profile-ui');
-            const avatarTxt = document.getElementById('user-avatar-initial');
+            const avatarLetter = document.getElementById('user-avatar-initial');
 
-            if (user) {
+            if(user) {
                 loginBtn.style.display = 'none';
                 profileUI.style.display = 'flex';
-                avatarTxt.innerText = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
+                avatarLetter.innerText = user.email ? user.email.charAt(0).toUpperCase() : 'U';
             } else {
                 loginBtn.style.display = 'block';
                 profileUI.style.display = 'none';
             }
         });
 
-        // --- DATABASE WRITES: FEEDBACK MODULE ---
+        // --- SUGGESTION SYSTEM ---
         window.submitSuggestion = function() {
-            const inputEl = document.getElementById('suggestion-input');
-            const successMsg = document.getElementById('feedback-success');
-            const val = inputEl.value.trim();
-            
-            if(!val) return;
+            const field = document.getElementById('suggestion-input');
+            const text = field.value.trim();
+            if(!text) return;
 
             push(ref(rtdb, 'suggestions'), {
-                text: val,
+                text: text,
                 timestamp: Date.now(),
-                user: auth.currentUser ? auth.currentUser.uid : 'anonymous'
+                user: auth.currentUser ? auth.currentUser.email : 'Anonymous'
             }).then(() => {
-                inputEl.value = '';
+                field.value = '';
+                const successMsg = document.getElementById('feedback-success');
                 successMsg.style.display = 'block';
                 setTimeout(() => { successMsg.style.display = 'none'; }, 4000);
-            }).catch(err => alert('Transmission failed.'));
+            });
         }
 
-        // --- GLOBAL INTERCEPTOR HOOKS ---
-        let initialLoad = true;
+        // =========================================================
+        // 5. GLOBAL KILL-SWITCH & INTERCEPTOR CONTROLLER
+        // =========================================================
+        const systemStatusRef = ref(rtdb, 'system/status');
+        const overlay = document.getElementById('system-overlay');
+        const overlayContent = document.getElementById('overlay-content');
 
-        onValue(ref(rtdb, 'system/globalReset'), (snapshot) => {
-            if (initialLoad) {
-                initialLoad = false; 
-                return;
-            }
-            if (snapshot.exists()) {
-                console.warn("GLOBAL RESET TRIGGERED BY COMMAND. Flushing cache...");
-                window.location.reload();
-            }
-        });
-
-        onValue(ref(rtdb, 'system/status'), (snapshot) => {
+        onValue(systemStatusRef, (snapshot) => {
             const status = snapshot.val();
-            const overlay = document.getElementById('system-overlay');
-            const content = document.getElementById('overlay-content');
-
-            overlay.style.display = 'none';
-            overlay.style.background = 'rgba(0,0,0,0.95)';
-            content.style.borderColor = 'var(--border-thin)';
-
+            
             if (status === "SHUTDOWN") {
                 overlay.style.display = 'flex';
-                overlay.style.background = '#000000';
-                content.style.borderColor = 'var(--accent-red)';
-                content.innerHTML = `<h2 style="color:var(--accent-red)">System Offline</h2><p>W-Suite System Offline — Operations Terminated by Executive Command.</p>`;
+                overlayContent.innerHTML = `
+                    <div class="overlay-card" style="border-color: var(--accent-red); box-shadow: 0 0 50px rgba(239, 68, 68, 0.15);">
+                        <h2 style="color:var(--accent-red)">System Offline</h2>
+                        <p style="color:var(--text-muted); margin-top:1rem;">W-Suite System Offline — Operations Terminated by Executive Command.</p>
+                    </div>
+                `;
             } 
             else if (status === "UPDATING") {
                 overlay.style.display = 'flex';
-                content.style.borderColor = 'var(--accent-gold)';
-                content.innerHTML = `<h2 style="color:var(--accent-gold)">Maintenance Node Active</h2><p>Wwebsite is currently updating platform dependencies. Please stand by.</p>`;
+                // Perfectly loads your exact "Under Construction" UI markup
+                overlayContent.innerHTML = `
+                    <div class="up-body-wrapper">
+                        <div class="rule-top"></div>
+                        <div class="rule-bottom"></div>
+                        <div class="corner tl"></div>
+                        <div class="corner tr"></div>
+                        <div class="corner bl"></div>
+                        <div class="corner br"></div>
+                        <div class="geo geo-1"></div>
+                        <div class="geo geo-2"></div>
+
+                        <div class="up-container">
+                            <p class="up-label">System Notice</p>
+                            <h1>We're <em>updating</em><br>our website</h1>
+                            <div class="up-divider"></div>
+                            <p class="up-message">
+                                We published a little early and need to fix a few bugs.<br>
+                                Our team is on it now — we'll be back up and running shortly.<br>
+                                Thank you for your patience!
+                            </p>
+
+                            <span class="up-status">
+                                <span class="up-dot"></span>
+                                Update in progress
+                            </span>
+                        </div>
+                    </div>
+                `;
             } 
             else if (status === "TESTING") {
                 setTimeout(() => {
                     const currentUser = auth.currentUser;
                     if (!currentUser || currentUser.email !== "brodywilliams0226@gmail.com") {
                         overlay.style.display = 'flex';
-                        content.style.borderColor = 'var(--accent-purple)';
-                        content.innerHTML = `<h2 style="color:var(--accent-purple)">Restricted Access</h2><p>Closed Staging Beta. Master Command authorization required.</p>`;
+                        overlayContent.innerHTML = `
+                            <div class="overlay-card" style="border-color: var(--accent-purple); box-shadow: 0 0 50px rgba(126, 34, 206, 0.15);">
+                                <h2 style="color:var(--accent-purple)">Restricted Access</h2>
+                                <p style="color:var(--text-muted); margin-top:1rem;">Closed Staging Beta. Master Command authorization required.</p>
+                            </div>
+                        `;
+                    } else {
+                        overlay.style.display = 'none';
                     }
                 }, 1000);
+            } 
+            else {
+                // If it says ONLINE or doesn't exist, completely remove overlay
+                overlay.style.display = 'none';
+                overlayContent.innerHTML = '';
             }
         });
     </script>
