@@ -100,8 +100,9 @@
             transition: all 0.3s ease;
         }
         .btn-login:hover {
-            border-color: var(--text-main);
-            background: rgba(255,255,255,0.05);
+            border-color: var(--accent-purple);
+            background: rgba(126, 34, 206, 0.1);
+            box-shadow: 0 0 15px rgba(126, 34, 206, 0.3);
         }
         
         .user-profile {
@@ -128,6 +129,126 @@
         .dropdown-item:hover { color: var(--text-main); background: rgba(255,255,255,0.02); }
 
         /* =========================================================
+           AUTH MODAL OVERLAY
+           ========================================================= */
+        #auth-modal {
+            display: none; 
+            position: fixed; 
+            z-index: 10000; 
+            left: 0; 
+            top: 0; 
+            width: 100vw; 
+            height: 100vh; 
+            background-color: rgba(3, 3, 5, 0.85); 
+            backdrop-filter: blur(8px); 
+            justify-content: center; 
+            align-items: center; 
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #auth-modal.visible {
+            display: flex;
+            opacity: 1;
+        }
+        .auth-modal-content {
+            background: var(--bg-panel); 
+            border: 1px solid var(--border-thin); 
+            padding: 3rem; 
+            border-radius: 8px; 
+            width: 100%; 
+            max-width: 420px; 
+            position: relative; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8); 
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        #auth-modal.visible .auth-modal-content {
+            transform: translateY(0);
+        }
+        .close-modal { 
+            position: absolute; 
+            top: 15px; 
+            right: 20px; 
+            font-size: 1.8rem; 
+            color: var(--text-muted); 
+            cursor: pointer; 
+            transition: 0.2s;
+        }
+        .close-modal:hover { color: var(--accent-red); }
+        .auth-modal-content h2 { 
+            margin-bottom: 2rem; 
+            text-align: center; 
+            font-weight: 300;
+            letter-spacing: 4px; 
+            text-transform: uppercase; 
+        }
+        .auth-input { 
+            width: 100%; 
+            padding: 15px; 
+            margin-bottom: 1.2rem; 
+            background: var(--bg-canvas); 
+            border: 1px solid var(--border-thin); 
+            color: var(--text-main); 
+            border-radius: 4px; 
+            outline: none; 
+            transition: border 0.3s, box-shadow 0.3s; 
+        }
+        .auth-input:focus { 
+            border-color: var(--accent-purple); 
+            box-shadow: 0 0 10px rgba(126, 34, 206, 0.2);
+        }
+        .btn-primary { 
+            width: 100%; 
+            padding: 15px; 
+            background: var(--text-main); 
+            color: var(--bg-canvas); 
+            border: none; 
+            font-weight: bold; 
+            letter-spacing: 1px;
+            text-transform: uppercase; 
+            cursor: pointer; 
+            border-radius: 4px; 
+            transition: 0.3s; 
+        }
+        .btn-primary:hover { background: var(--accent-purple); color: #fff; box-shadow: 0 0 15px rgba(126, 34, 206, 0.4);}
+        .auth-divider { 
+            text-align: center; 
+            margin: 2rem 0; 
+            position: relative; 
+        }
+        .auth-divider::before, .auth-divider::after { 
+            content: ""; 
+            position: absolute; 
+            top: 50%; 
+            width: 40%; 
+            height: 1px; 
+            background: var(--border-thin); 
+        }
+        .auth-divider::before { left: 0; }
+        .auth-divider::after { right: 0; }
+        .auth-divider span { color: var(--text-muted); font-size: 0.8rem; background: var(--bg-panel); padding: 0 10px; }
+        .btn-google { 
+            width: 100%; 
+            padding: 15px; 
+            background: transparent; 
+            border: 1px solid var(--border-thin); 
+            color: var(--text-main); 
+            cursor: pointer; 
+            border-radius: 4px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 12px; 
+            transition: 0.3s; 
+            font-size: 0.95rem;
+        }
+        .btn-google:hover { background: rgba(255,255,255,0.05); border-color: var(--text-muted);}
+        .auth-switch { text-align: center; font-size: 0.9rem; color: var(--text-muted); margin-top: 1.5rem; }
+        .auth-switch a { color: var(--accent-purple); text-decoration: none; cursor: pointer; font-weight: bold;}
+        .auth-switch a:hover { text-decoration: underline; }
+        .auth-error { color: var(--accent-red); font-size: 0.85rem; text-align: center; margin-bottom: 1rem; display: none; }
+
+        /* =========================================================
            CORE LAYOUT CONTAINERS
            ========================================================= */
         main { flex: 1; padding: 4rem 4rem 8rem 4rem; max-width: 1400px; margin: 0 auto; width: 100%; }
@@ -138,7 +259,6 @@
         /* =========================================================
            2. HOMEPAGE ARCHITECTURE
            ========================================================= */
-        /* Cinematic Hero */
         .hero-module { text-align: center; margin-bottom: 6rem; padding: 4rem 0; }
         .hero-module h1 { font-size: 4rem; font-weight: 300; letter-spacing: 12px; margin-bottom: 1rem; }
         .hero-module p { font-size: 1.2rem; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 3rem; }
@@ -149,21 +269,18 @@
         }
         .btn-gold:hover { background: rgba(212, 175, 55, 0.1); box-shadow: 0 0 30px rgba(212, 175, 55, 0.3); }
 
-        /* Tiers Matrix */
         .tiers-matrix { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 6rem; }
         .tier-card { background: var(--bg-panel); border: 1px solid var(--border-thin); padding: 3rem 2rem; text-align: center; transition: transform 0.3s ease; }
         .tier-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.1); }
         .tier-card h3 { font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1rem; }
         .tier-card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
-        .tier-cosmos { border-color: var(); box-shadow: 0 0 40px rgba(126, 34, 206, 0.05); }
+        .tier-cosmos { box-shadow: 0 0 40px rgba(126, 34, 206, 0.05); }
 
-        /* Secure Channels Teaser */
         .teaser-card {
             position: relative; height: 300px; margin-bottom: 6rem; border: 1px solid var(--border-thin);
             overflow: hidden; display: flex; justify-content: center; align-items: center;
             background: linear-gradient(135deg, #0c0c12 0%, #030305 100%);
         }
-        /* Faux blurred chat background */
         .teaser-bg {
             position: absolute; top:0; left:0; width:100%; height:100%; filter: blur(8px); opacity: 0.4;
             display: flex; flex-direction: column; gap: 20px; padding: 40px; pointer-events: none;
@@ -177,7 +294,6 @@
             letter-spacing: 4px; font-weight: 600; font-size: 1.1rem; box-shadow: 0 20px 40px rgba(0,0,0,0.8);
         }
 
-        /* Feedback Module */
         .feedback-module { background: var(--bg-panel); border: 1px solid var(--border-thin); padding: 4rem; text-align: center; margin-bottom: 6rem; }
         .feedback-module h2 { font-size: 1.5rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2rem; }
         .input-group { display: flex; max-width: 600px; margin: 0 auto; gap: 10px; }
@@ -221,6 +337,37 @@
 </head>
 <body>
 
+    <div id="auth-modal">
+        <div class="auth-modal-content">
+            <span class="close-modal" onclick="closeAuthModal()">&times;</span>
+            <h2 id="auth-title">System Login</h2>
+            
+            <div id="auth-error-msg" class="auth-error"></div>
+
+            <input type="email" id="auth-email" class="auth-input" placeholder="Email Address">
+            <input type="password" id="auth-password" class="auth-input" placeholder="Password">
+            
+            <button id="auth-submit-btn" class="btn-primary" onclick="handleEmailAuth()">Authenticate</button>
+            
+            <div class="auth-divider"><span>OR</span></div>
+            
+            <button class="btn-google" onclick="triggerGoogleLogin()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                </svg>
+                Sign in with Google
+            </button>
+            
+            <p class="auth-switch">
+                <span id="auth-switch-text">Don't have an account?</span> 
+                <a onclick="toggleAuthMode()" id="auth-switch-link">Create Account</a>
+            </p>
+        </div>
+    </div>
+
     <div id="system-overlay">
         <div id="overlay-content" class="overlay-card">
             </div>
@@ -240,10 +387,10 @@
         </nav>
 
         <div class="auth-block">
-            <button class="btn-login" id="login-btn" onclick="triggerLoginModal()"(Coming Soon)<
+            <button class="btn-login" id="login-btn" onclick="openAuthModal()">Login / Register</button>
             
             <div class="user-profile" id="user-profile-ui">
-                <div class="avatar" id="user-avatar-initial">Login/SignUp</div>
+                <div class="avatar" id="user-avatar-initial">U</div>
                 <div class="dropdown">
                     <a href="#" class="dropdown-item">⚙️ Account Settings</a>
                     <a href="#" class="dropdown-item" onclick="triggerLogout()">🚪 Disconnect</a>
@@ -264,14 +411,14 @@
             <section class="tiers-matrix">
                 <div class="tier-card">
                     <h3>(Coming Soon)</h3>
-                    <p>(Coming Soon</p>
+                    <p>(Coming Soon)</p>
                 </div>
                 <div class="tier-card">
                     <h3>(Coming Soon)</h3>
                     <p>(Coming Soon)</p>
                 </div>
                 <div class="tier-card tier-cosmos">
-                    <h3 style="color: var();">(Coming Soon)</h3>
+                    <h3>(Coming Soon)</h3>
                     <p>(Coming Soon)</p>
                 </div>
             </section>
@@ -345,18 +492,24 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, push, onValue, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
 
-        // DEVELOPER NOTE: Replace with Version 25 production keys
+        // Your provided v9 Firebase configuration
         const firebaseConfig = {
-            apiKey: "AIzaSy_MOCK_KEY_FOR_W_WEBSITE",
-            authDomain: "wwebsite-v25.firebaseapp.com",
-            databaseURL: "https://wwebsite-v25-default-rtdb.firebaseio.com",
-            projectId: "wwebsite-v25"
+            apiKey: "AIzaSyChx24EPK7w1f7SGVYraI993TkC89ZxiZo",
+            authDomain: "wwebsite-ae20b.firebaseapp.com",
+            databaseURL: "https://wwebsite-ae20b-default-rtdb.firebaseio.com",
+            projectId: "wwebsite-ae20b",
+            storageBucket: "wwebsite-ae20b.firebasestorage.app",
+            messagingSenderId: "1073638981689",
+            appId: "1:1073638981689:web:1fceb547ed3704b782cde8",
+            measurementId: "G-HK8S5YRG4J"
         };
 
         const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
         const auth = getAuth(app);
         const rtdb = getDatabase(app);
         const provider = new GoogleAuthProvider();
@@ -371,16 +524,97 @@
             window.scrollTo(0,0);
         }
 
-        // --- AUTHENTICATION FLOW ---
-        window.triggerLoginModal = function() {
-            // Using standard Google Popup for modern secure auth
-            signInWithPopup(auth, provider).catch(error => {
-                console.error("Auth Exception:", error.message);
+        // --- AUTHENTICATION MODAL UI LOGIC ---
+        let isLoginMode = true;
+        const authModal = document.getElementById('auth-modal');
+        const authTitle = document.getElementById('auth-title');
+        const authSubmitBtn = document.getElementById('auth-submit-btn');
+        const authSwitchText = document.getElementById('auth-switch-text');
+        const authSwitchLink = document.getElementById('auth-switch-link');
+        const errorMsg = document.getElementById('auth-error-msg');
+
+        window.openAuthModal = function() {
+            authModal.classList.add('visible');
+            errorMsg.style.display = 'none';
+        }
+
+        window.closeAuthModal = function() {
+            authModal.classList.remove('visible');
+            document.getElementById('auth-email').value = '';
+            document.getElementById('auth-password').value = '';
+        }
+
+        window.toggleAuthMode = function() {
+            isLoginMode = !isLoginMode;
+            errorMsg.style.display = 'none';
+            if(isLoginMode) {
+                authTitle.innerText = "System Login";
+                authSubmitBtn.innerText = "Authenticate";
+                authSwitchText.innerText = "Don't have an account?";
+                authSwitchLink.innerText = "Create Account";
+            } else {
+                authTitle.innerText = "Create Account";
+                authSubmitBtn.innerText = "Register System ID";
+                authSwitchText.innerText = "Already registered?";
+                authSwitchLink.innerText = "Login Instead";
+            }
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            if (event.target == authModal) {
+                closeAuthModal();
+            }
+        }
+
+        // --- FIREBASE AUTHENTICATION FUNCTIONS ---
+        
+        // Email/Password Login & Signup
+        window.handleEmailAuth = function() {
+            const email = document.getElementById('auth-email').value.trim();
+            const password = document.getElementById('auth-password').value.trim();
+            
+            if(!email || !password) {
+                showError("Email and Password are required.");
+                return;
+            }
+
+            if(isLoginMode) {
+                signInWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        closeAuthModal();
+                    })
+                    .catch((error) => {
+                        showError(error.message);
+                    });
+            } else {
+                createUserWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        closeAuthModal();
+                    })
+                    .catch((error) => {
+                        showError(error.message);
+                    });
+            }
+        }
+
+        // Google Sign-in
+        window.triggerGoogleLogin = function() {
+            signInWithPopup(auth, provider).then(() => {
+                closeAuthModal();
+            }).catch(error => {
+                showError(error.message);
             });
         }
 
         window.triggerLogout = function() { signOut(auth); }
 
+        function showError(message) {
+            errorMsg.innerText = message.replace('Firebase: ', ''); // Clean up error string
+            errorMsg.style.display = 'block';
+        }
+
+        // Watch for Authentication State Changes
         onAuthStateChanged(auth, (user) => {
             const loginBtn = document.getElementById('login-btn');
             const profileUI = document.getElementById('user-profile-ui');
@@ -418,11 +652,10 @@
         // --- GLOBAL INTERCEPTOR HOOKS ---
         let initialLoad = true;
 
-        // 1. Listen for Global Reset
         onValue(ref(rtdb, 'system/globalReset'), (snapshot) => {
             if (initialLoad) {
                 initialLoad = false; 
-                return; // Ignore first read to prevent infinite loop on boot
+                return;
             }
             if (snapshot.exists()) {
                 console.warn("GLOBAL RESET TRIGGERED BY COMMAND. Flushing cache...");
@@ -430,20 +663,18 @@
             }
         });
 
-        // 2. Listen for System Status Overrides
         onValue(ref(rtdb, 'system/status'), (snapshot) => {
             const status = snapshot.val();
             const overlay = document.getElementById('system-overlay');
             const content = document.getElementById('overlay-content');
 
-            // Reset overlay state
             overlay.style.display = 'none';
             overlay.style.background = 'rgba(0,0,0,0.95)';
             content.style.borderColor = 'var(--border-thin)';
 
             if (status === "SHUTDOWN") {
                 overlay.style.display = 'flex';
-                overlay.style.background = '#000000'; // Solid black
+                overlay.style.background = '#000000';
                 content.style.borderColor = 'var(--accent-red)';
                 content.innerHTML = `<h2 style="color:var(--accent-red)">System Offline</h2><p>W-Suite System Offline — Operations Terminated by Executive Command.</p>`;
             } 
@@ -453,7 +684,6 @@
                 content.innerHTML = `<h2 style="color:var(--accent-gold)">Maintenance Node Active</h2><p>Wwebsite is currently updating platform dependencies. Please stand by.</p>`;
             } 
             else if (status === "TESTING") {
-                // Ensure auth state is resolved before blocking
                 setTimeout(() => {
                     const currentUser = auth.currentUser;
                     if (!currentUser || currentUser.email !== "brodywilliams0226@gmail.com") {
@@ -461,7 +691,7 @@
                         content.style.borderColor = 'var(--accent-purple)';
                         content.innerHTML = `<h2 style="color:var(--accent-purple)">Restricted Access</h2><p>Closed Staging Beta. Master Command authorization required.</p>`;
                     }
-                }, 1000); // Small buffer to let Firebase auth resolve on hard refresh
+                }, 1000);
             }
         });
     </script>
