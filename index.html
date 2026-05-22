@@ -41,9 +41,6 @@
       opacity: 0.3; pointer-events: none; z-index: 9999;
     }
 
-    /* ─────────────────────────────────────────────────────────
-       2. REUSABLE PREMIUM UI COMPONENTS
-       ───────────────────────────────────────────────────────── */
     .section-title {
       font-family: var(--font-serif);
       font-size: clamp(2rem, 5vw, 3rem);
@@ -63,30 +60,8 @@
       margin-bottom: 4rem;
     }
 
-    .btn-gold {
-      display: inline-block;
-      background: transparent;
-      color: var(--accent-gold);
-      border: 1px solid var(--accent-gold);
-      padding: 1rem 2.5rem;
-      text-decoration: none;
-      font-family: var(--font-mono);
-      font-weight: 500;
-      font-size: 0.85rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.05);
-    }
-    .btn-gold:hover {
-      background: var(--accent-gold);
-      color: var(--bg);
-      box-shadow: 0 0 25px rgba(255, 215, 0, 0.2);
-      transform: translateY(-2px);
-    }
-
     /* ─────────────────────────────────────────────────────────
-       3. GLOBAL HEADER (FIXED NAVIGATION)
+       2. GLOBAL HEADER (FIXED NAVIGATION)
        ───────────────────────────────────────────────────────── */
     header {
       display: flex;
@@ -144,9 +119,7 @@
       color: var(--fg);
     }
 
-    .auth-trigger-container {
-      position: relative;
-    }
+    .auth-trigger-container { position: relative; }
     .btn-login {
       background: transparent;
       color: var(--fg);
@@ -159,244 +132,86 @@
       cursor: pointer;
       transition: border-color 0.3s ease;
     }
-    .btn-login:hover {
-      border-color: var(--fg);
-    }
+    .btn-login:hover { border-color: var(--fg); }
 
     .user-avatar {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: var(--accent-purple);
-      color: var(--fg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-mono);
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
-      border: 1px solid var(--border-charcoal);
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--accent-purple); color: var(--fg);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-weight: 600; font-size: 0.9rem;
+      cursor: pointer; border: 1px solid var(--border-charcoal);
+      background-size: cover; background-position: center;
     }
     .avatar-dropdown {
-      display: none;
-      position: absolute;
-      right: 0;
-      top: calc(100% + 1rem);
-      background: var(--card-bg);
-      border: 1px solid var(--border-charcoal);
-      width: 200px;
-      padding: 0.5rem 0;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      display: none; position: absolute; right: 0; top: calc(100% + 1rem);
+      background: var(--card-bg); border: 1px solid var(--border-charcoal);
+      width: 200px; padding: 0.5rem 0; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
     .avatar-dropdown.show { display: block; }
     .avatar-dropdown button {
-      width: 100%;
-      background: transparent;
-      border: none;
-      color: var(--muted-gray);
-      text-align: left;
-      padding: 0.75rem 1.5rem;
-      font-family: var(--font-sans);
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: color 0.2s;
+      width: 100%; background: transparent; border: none; color: var(--muted-gray);
+      text-align: left; padding: 0.75rem 1.5rem; font-family: var(--font-sans);
+      font-size: 0.85rem; cursor: pointer; transition: color 0.2s;
     }
-    .avatar-dropdown button:hover {
-      color: var(--fg);
-      background: rgba(26,26,38,0.3);
-    }
+    .avatar-dropdown button:hover { color: var(--fg); background: rgba(26,26,38,0.3); }
 
     /* ─────────────────────────────────────────────────────────
-       4. AUTHENTICATION SECURE MODAL
-       ───────────────────────────────────────────────────────── */
-    .auth-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(3,3,5,0.85);
-      backdrop-filter: blur(16px);
-      z-index: 99999;
-      align-items: center;
-      justify-content: center;
-    }
-    .auth-modal.show { display: flex; }
-    .modal-box {
-      background: var(--card-bg);
-      border: 1px solid var(--border-charcoal);
-      padding: 3.5rem;
-      width: 100%;
-      max-width: 460px;
-      position: relative;
-    }
-    .modal-close {
-      position: absolute; top: 1.5rem; right: 1.5rem;
-      background: transparent; border: none; color: var(--muted-gray);
-      font-size: 1.2rem; cursor: pointer;
-    }
-    .modal-box h3 {
-      font-family: var(--font-serif);
-      font-size: 1.8rem; font-weight: 400; margin-bottom: 2rem;
-    }
-    .form-group { margin-bottom: 1.5rem; }
-    .form-group label {
-      display: block; font-family: var(--font-mono); font-size: 0.65rem;
-      text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted-gray); margin-bottom: 0.5rem;
-    }
-    .form-group input {
-      width: 100%; background: #030305; border: 1px solid var(--border-charcoal);
-      padding: 1rem; color: var(--fg); font-family: var(--font-sans); font-size: 0.9rem;
-    }
-    .form-group input:focus { outline: 1px solid var(--accent-purple); }
-    .btn-submit {
-      width: 100%; background: var(--accent-purple); color: var(--fg); border: none;
-      padding: 1rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em;
-      cursor: pointer; font-size: 0.85rem; margin-top: 1rem;
-    }
-
-    /* ─────────────────────────────────────────────────────────
-       5. STATE A: SYSTEM PRODUCTION HOMEPAGE CANVAS
+       3. STATE A: SYSTEM PRODUCTION HOMEPAGE CANVAS
        ───────────────────────────────────────────────────────── */
     #production-canvas {
-      display: none; /* Controlled dynamically by Database Engine */
+      display: none;
       padding-top: 12rem;
       width: 100%;
       flex-direction: column;
     }
 
-    /* Cinematic Hero Module */
     .hero-panel {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 4rem 2rem;
-      margin-bottom: 7rem;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; padding: 6rem 2rem; margin-bottom: 7rem;
     }
     .hero-panel h1 {
-      font-family: var(--font-serif);
-      font-size: clamp(3.5rem, 9vw, 6.5rem);
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
-      text-indent: 0.15em;
+      font-family: var(--font-serif); font-size: clamp(3.5rem, 9vw, 6.5rem);
+      font-weight: 700; letter-spacing: 0.15em; line-height: 1.1; margin-bottom: 1.5rem;
     }
     .hero-panel p {
-      font-family: var(--font-sans);
-      font-size: 1.1rem;
-      color: var(--muted-gray);
-      max-width: 600px;
-      line-height: 1.8;
-      margin-bottom: 3.5rem;
+      font-family: var(--font-sans); font-size: 1.1rem; color: var(--muted-gray);
+      max-width: 600px; line-height: 1.8; margin-bottom: 3.5rem;
     }
 
-    /* Subscription Matrix Tier Framework */
-    .matrix-panel {
-      margin-bottom: 7rem;
-    }
-    .matrix-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-      padding: 0 5rem;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-    .tier-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-charcoal);
-      padding: 3rem 2.5rem;
-      display: flex;
-      flex-direction: column;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .tier-card.elite { border-color: rgba(255, 215, 0, 0.35); }
-    .tier-card.cosmos { 
-      border-color: var(--border-charcoal);
-      box-shadow: inset 0 0 30px rgba(98, 0, 238, 0.15);
-    }
-    .tier-card h4 {
-      font-family: var(--font-serif); font-size: 1.6rem; font-weight: 400; margin-bottom: 0.5rem;
-    }
-    .tier-price {
-      font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent-gold); margin-bottom: 2rem;
-    }
-    .tier-features {
-      list-style: none; display: flex; flex-direction: column; gap: 1rem; margin-bottom: 3rem;
-    }
-    .tier-features li {
-      font-size: 0.9rem; color: #b2aeb2; display: flex; align-items: center; gap: 0.75rem;
-    }
-    .tier-features li::before {
-      content: '✓'; color: var(--accent-green); font-weight: bold;
-    }
-    .tier-card .btn-tier {
-      margin-top: auto; width: 100%; background: transparent; border: 1px solid var(--border-charcoal);
-      color: var(--fg); padding: 0.85rem; font-family: var(--font-mono); font-size: 0.75rem;
-      text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s;
-    }
-    .tier-card:hover { transform: translateY(-5px); }
-    .tier-card.elite:hover { border-color: var(--accent-gold); }
-    .tier-card.cosmos:hover { border-color: var(--accent-purple); box-shadow: 0 0 30px rgba(98, 0, 238, 0.25); }
-
-    /* Secure Channel Terminal Teaser */
-    .teaser-panel {
-      padding: 0 5rem;
-      max-width: 1400px;
-      margin: 0 auto 7rem auto;
-      width: 100%;
-    }
+    /* Secure Channel Terminal Block (Locked Access Profile) */
+    .teaser-panel { padding: 0 5rem; max-width: 1200px; margin: 0 auto 7rem auto; width: 100%; }
     .teaser-glass {
       background: linear-gradient(135deg, rgba(12,12,18,0.6) 0%, rgba(3,3,5,0.8) 100%);
-      border: 1px solid var(--border-charcoal);
-      border-radius: 4px;
-      padding: 6rem 2rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .teaser-backdrop-glow {
-      position: absolute; width: 250px; height: 120px;
-      background: linear-gradient(90deg, var(--accent-purple), #1f1147);
-      filter: blur(80px); opacity: 0.3; top: 40%; left: 40%; pointer-events: none;
+      border: 1px solid var(--border-charcoal); padding: 6rem 2rem; text-align: center; position: relative;
     }
     .teaser-badge {
       display: inline-flex; align-items: center; gap: 0.5rem;
-      border: 1px solid rgba(207, 102, 121, 0.3); background: rgba(207, 102, 121, 0.05);
+      border: 1px solid rgba(207, 102, 121, 0.4); background: rgba(207, 102, 121, 0.05);
       color: var(--accent-red); font-family: var(--font-mono); font-size: 0.7rem;
       padding: 0.4rem 1rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 2rem;
     }
     .teaser-glass h3 { font-family: var(--font-serif); font-size: 2.2rem; font-weight: 400; margin-bottom: 1rem; }
-    .teaser-glass p { font-size: 0.9rem; color: var(--muted-gray); font-family: var(--font-mono); }
+    .teaser-glass p { font-size: 0.9rem; color: var(--muted-gray); font-family: var(--font-mono); margin-bottom: 2rem; }
+    
+    .lock-shield-icon {
+      font-size: 2.5rem; color: var(--accent-red); margin-bottom: 1rem; opacity: 0.8;
+    }
 
     /* Live Interacting Console Panel */
-    .console-panel {
-      padding: 0 5rem;
-      max-width: 800px;
-      margin: 0 auto 7rem auto;
-      width: 100%;
-    }
-    .console-box {
-      background: var(--card-bg);
-      border: 1px solid var(--border-charcoal);
-      padding: 3rem;
-    }
+    .console-panel { padding: 0 5rem; max-width: 800px; margin: 0 auto 7rem auto; width: 100%; }
+    .console-box { background: var(--card-bg); border: 1px solid var(--border-charcoal); padding: 3rem; }
     .console-box textarea {
       width: 100%; height: 130px; background: #030305; border: 1px solid var(--border-charcoal);
       padding: 1.25rem; color: var(--fg); font-family: var(--font-mono); font-size: 0.85rem;
       resize: none; margin-bottom: 1.5rem; line-height: 1.6;
     }
     .console-box textarea:focus { outline: 1px solid var(--accent-purple); }
-    .console-action-row {
-      display: flex; justify-content: space-between; align-items: center;
-    }
+    .console-action-row { display: flex; justify-content: space-between; align-items: center; }
     .console-btn {
       background: var(--fg); color: var(--bg); border: none; padding: 1rem 2rem;
       font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: opacity 0.2s;
+      text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer;
     }
-    .console-btn:hover { opacity: 0.9; }
     .console-success-toast {
       font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-green);
       display: none; align-items: center; gap: 0.5rem;
@@ -404,65 +219,47 @@
     .console-success-toast.show { display: flex; }
 
     /* ─────────────────────────────────────────────────────────
-       6. STATE B: CREDITS & OPERATIONS ROSTER CANVAS
+       4. STATE B: CREDITS & OPERATIONS ROSTER CANVAS
        ───────────────────────────────────────────────────────── */
     #credits-canvas {
-      display: none; /* Controlled dynamically by Tab Engine */
+      display: none;
       padding-top: 12rem;
       width: 100%;
       flex-direction: column;
     }
     .roster-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-      padding: 0 5rem;
-      max-width: 1400px;
-      margin: 0 auto 7rem auto;
-      width: 100%;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+      padding: 0 5rem; max-width: 1200px; margin: 0 auto 7rem auto; width: 100%;
     }
-    .roster-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-charcoal);
-      padding: 2.5rem;
-      text-align: center;
+    .roster-card { background: var(--card-bg); border: 1px solid var(--border-charcoal); padding: 3.5rem 2rem; text-align: center; }
+    .roster-card .role-badge {
+      font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-gold);
+      border: 1px solid rgba(255, 215, 0, 0.2); padding: 0.25rem 0.75rem;
+      display: inline-block; margin-bottom: 1.5rem; letter-spacing: 0.1em; text-transform: uppercase;
     }
-    .roster-card .avatar-placeholder {
-      width: 70px; height: 70px; border-radius: 50%; background: #1a1a26;
-      margin: 0 auto 1.5rem auto; display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-serif); font-size: 1.5rem; color: var(--accent-gold);
-    }
-    .roster-card h4 { font-family: var(--font-sans); font-size: 1.1rem; font-weight: 600; margin-bottom: 0.25rem; }
-    .roster-card p { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted-gray); text-transform: uppercase; letter-spacing: 0.1em; }
+    .roster-card h4 { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 400; margin-bottom: 0.5rem; }
+    .roster-card p { font-family: var(--font-sans); font-size: 0.85rem; color: var(--muted-gray); }
 
     /* ─────────────────────────────────────────────────────────
-       7. STATE C: MAINTENANCE & LOCKDOWN TERMINAL OVERLAY
+       5. STATE C: MAINTENANCE & LOCKDOWN TERMINAL OVERLAY
        ───────────────────────────────────────────────────────── */
     #maintenance-overlay {
-      display: flex; /* Handled via Realtime Config Node Engine */
-      position: fixed;
-      inset: 0;
-      background: var(--bg);
-      z-index: 99999;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
+      display: flex; position: fixed; inset: 0; background: var(--bg); z-index: 99999;
+      flex-direction: column; align-items: center; justify-content: center; overflow: hidden;
     }
     .rule-top, .rule-bottom {
       position: absolute; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(200,169,110,0.2), transparent);
+      background: linear-gradient(90deg, transparent, rgba(200,169,110,0.15), transparent);
     }
     .rule-top { top: 48px; } .rule-bottom { bottom: 48px; }
     
     .overlay-container { text-align: center; padding: 2rem; max-width: 680px; position: relative; z-index: 10; }
     .overlay-container h2 { font-family: var(--font-serif); font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 400; line-height: 1.1; margin-bottom: 0.5em; }
     .overlay-container h2 em { font-style: italic; color: var(--accent-gold); }
-    .overlay-divider { width: 48px; height: 1px; background: var(--accent-gold); margin: 2rem auto; opacity: 0.6; }
+    .overlay-divider { width: 48px; height: 1px; background: var(--accent-gold); margin: 2rem auto; opacity: 0.4; }
     .overlay-message { font-size: 0.85rem; letter-spacing: 0.08em; color: var(--muted-gray); line-height: 2; margin-bottom: 2rem; font-family: var(--font-mono); }
     .overlay-row-text { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent-gold); margin-bottom: 2rem; font-family: var(--font-mono); }
     
-    /* Countdown System Elements */
     #countdown-ui-block { display: block; }
     .clock-flex { display: flex; justify-content: center; align-items: center; gap: 1.5rem; margin-bottom: 2.5rem; }
     .clock-digits { font-family: var(--font-serif); font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 700; color: var(--fg); min-width: 2ch; }
@@ -475,8 +272,8 @@
     .bottom-status-badge { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.25em; color: var(--muted-gray); }
     .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-purple); }
     .status-dot.active-green { background: var(--accent-green); box-shadow: 0 0 8px var(--accent-green); }
+    .status-dot.active-orange { background: #FF9800; box-shadow: 0 0 8px #FF9800; }
 
-    /* Live Countdown Wrap-up Frame Substate */
     #live-wrapup-frame {
       display: none; position: absolute; inset: 0; background: var(--bg);
       flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; z-index: 20;
@@ -485,13 +282,21 @@
     #live-wrapup-frame h2 { font-family: var(--font-serif); font-size: 3.5rem; font-weight: 400; margin-bottom: 1rem; }
     #live-wrapup-frame p { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted-gray); line-height: 2; }
 
-    #confetti-layer { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 15; }
+    /* ─────────────────────────────────────────────────────────
+       6. STATE D: ISOLATED STAGE TESTING PANEL
+       ───────────────────────────────────────────────────────── */
+    #testing-mode-frame {
+      display: none; position: absolute; inset: 0; background: #050508;
+      flex-direction: column; align-items: center; justify-content: center; text-align: center; z-index: 30; padding: 2rem;
+    }
+    #testing-mode-frame.show { display: flex; }
+    .terminal-card {
+      background: #0d0d16; border: 1px dashed var(--accent-purple); padding: 4rem; max-width: 600px; width: 100%;
+    }
+    .terminal-header { font-family: var(--font-mono); color: var(--accent-purple); font-size: 0.75rem; letter-spacing: 0.2em; margin-bottom: 1.5rem; }
+    .terminal-card h2 { font-family: var(--font-serif); font-weight: 400; font-size: 2.5rem; margin-bottom: 1rem; }
 
-    /* Geometric Background Motifs */
-    .geom-ring { position: absolute; border: 1px solid rgba(26, 26, 38, 0.3); border-radius: 50%; pointer-events: none; }
-    .geom-ring-1 { width: 450px; height: 450px; top: -150px; right: -150px; }
-    .geom-ring-2 { width: 250px; height: 250px; bottom: -80px; left: -80px; }
-    
+    #confetti-layer { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 15; }
     footer.global-footer {
       width: 100%; text-align: center; padding: 4rem; border-top: 1px solid var(--border-charcoal);
       font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted-gray); background: #030305;
@@ -499,22 +304,6 @@
   </style>
 </head>
 <body>
-
-  <div class="auth-modal" id="security-auth-modal">
-    <div class="modal-box">
-      <button class="modal-close" id="close-modal-trigger">✕</button>
-      <h3 id="modal-title-context">Terminal Access</h3>
-      <div class="form-group">
-        <label>Identity Mail Link</label>
-        <input type="email" id="auth-email-input" placeholder="name@domain.com" />
-      </div>
-      <div class="form-group">
-        <label>Passkey Node Signature</label>
-        <input type="password" id="auth-pass-input" placeholder="••••••••••••" />
-      </div>
-      <button class="btn-submit" id="auth-action-submit">Authorize Session</button>
-    </div>
-  </div>
 
   <header>
     <a href="#" class="brand" id="nav-logo-home-trigger">
@@ -524,77 +313,30 @@
     <nav>
       <ul>
         <li><a id="tab-home-trigger" class="active">🏠 Home</a></li>
-        <li><a id="tab-games-trigger">🎮 Games</a></li>
-        <li><a id="tab-status-trigger">📊 Status</a></li>
         <li><a id="tab-credits-trigger">👥 Credits</a></li>
       </ul>
     </nav>
     <div class="auth-trigger-container">
-      <button class="btn-login" id="auth-gate-trigger">Login / Sign Up</button>
-      <div class="user-avatar" id="auth-profile-avatar" style="display: none;">--</div>
+      <button class="btn-login" id="auth-gate-trigger">Login with Google</button>
+      <div class="user-avatar" id="auth-profile-avatar" style="display: none;"></div>
       <div class="avatar-dropdown" id="profile-dropdown-box">
-        <button id="dropdown-account-settings">⚙️ Account Settings</button>
         <button id="dropdown-signout">🚪 Sign Out</button>
       </div>
     </div>
   </header>
 
   <div id="production-canvas">
-    
     <section class="hero-panel">
       <h1>W-SUITE // V2.1</h1>
       <p>The next-generation digital infrastructure for community management.</p>
-      <div>
-        <a href="#matrix-anchor" class="btn-gold">Open Core Dashboard</a>
-      </div>
-    </section>
-
-    <section class="matrix-panel" id="matrix-anchor">
-      <h3 class="section-title">Platform Tiers & <em>Access Levels</em></h3>
-      <p class="section-subtitle">Runtime Environment Clearance Structure</p>
-      
-      <div class="matrix-grid">
-        <div class="tier-card">
-          <h4>Free Access</h4>
-          <div class="tier-price">Node Standard // $0 Mo.</div>
-          <ul class="tier-features">
-            <li>Standard encrypted chat routes</li>
-            <li>Basic games profile index synchronization</li>
-            <li>Public server visibility parsing</li>
-          </ul>
-          <button class="btn-tier">Deploy Standard Node</button>
-        </div>
-        <div class="tier-card elite">
-          <h4>Elite Tier</h4>
-          <div class="tier-price">Premium Gold Framework // $15 Mo.</div>
-          <ul class="tier-features">
-            <li>Custom interface layout accents</li>
-            <li>Prioritized core container routing handling</li>
-            <li>Advanced profile telemetry data analytics</li>
-            <li>Extended memory parameters storage allocation</li>
-          </ul>
-          <button class="btn-tier" style="border-color: var(--accent-gold); color: var(--accent-gold);">Initialize Elite Node</button>
-        </div>
-        <div class="tier-card cosmos">
-          <h4>Cosmos Tier</h4>
-          <div class="tier-price">Master Universe Suite // $45 Mo.</div>
-          <ul class="tier-features">
-            <li>Full systemic root infrastructure access</li>
-            <li>Master graphical orchestration personalization controls</li>
-            <li>Exclusive early-access system build invites</li>
-            <li>Dedicated isolated sub-process deployment paths</li>
-          </ul>
-          <button class="btn-tier" style="border-color: var(--accent-purple); color: var(--fg);">Ascend to Cosmos</button>
-        </div>
-      </div>
     </section>
 
     <section class="teaser-panel">
       <div class="teaser-glass">
-        <div class="teaser-backdrop-glow"></div>
+        <div class="lock-shield-icon">🛑</div>
         <div class="teaser-badge">🔒 W-MESSAGES — SECURE BETA TERMINAL</div>
         <h3>Restricted Clearance Level Required</h3>
-        <p>Crypto-routing authentication links processing. Node state verification active.</p>
+        <p>No connections are authorized on this structural channel at this time. Network path isolation active.</p>
       </div>
     </section>
 
@@ -624,19 +366,19 @@
     
     <div class="roster-grid">
       <div class="roster-card">
-        <div class="avatar-placeholder">01</div>
-        <h4>Arch-Alpha</h4>
-        <p>Principal Core Architect</p>
+        <span class="role-badge">Owner</span>
+        <h4>Brody Williams</h4>
+        <p>Strategic Infrastructure Lead</p>
       </div>
       <div class="roster-card">
-        <div class="avatar-placeholder">02</div>
-        <h4>Syn-Beta</h4>
-        <p>Lead UI Backend Engineer</p>
+        <span class="role-badge">Co-Owner</span>
+        <h4>Jase Peaslee</h4>
+        <p>Operations Operations Manager</p>
       </div>
       <div class="roster-card">
-        <div class="avatar-placeholder">03</div>
-        <h4>Ops-Gamma</h4>
-        <p>Database Reliability Operator</p>
+        <span class="role-badge">Coder</span>
+        <h4>Owen</h4>
+        <p>Systems Software Architect</p>
       </div>
     </div>
 
@@ -647,7 +389,6 @@
 
   <div id="maintenance-overlay">
     <div class="rule-top"></div><div class="rule-bottom"></div>
-    <div class="geom-ring geom-ring-1"></div><div class="geom-ring geom-ring-2"></div>
 
     <canvas id="confetti-layer"></canvas>
 
@@ -682,15 +423,26 @@
       <div class="overlay-divider"></div>
       <p>The countdown sequence has fully resolved. System parameters are<br>deploying across active channels. Realtime access online momentarily.</p>
     </div>
+
+    <div id="testing-mode-frame">
+      <div class="terminal-card">
+        <div class="terminal-header">// STAGE TESTING STATE TERMINAL</div>
+        <h2>Validation In Progress</h2>
+        <div class="overlay-divider" style="background: var(--accent-purple);"></div>
+        <p style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted-gray); line-height: 1.8;">
+          W-SUITE Core V2.1 sandbox controls are active.<br>
+          Engineering evaluation is taking place live.
+        </p>
+      </div>
+    </div>
   </div>
 
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getDatabase, ref, onValue, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-    // Production Firebase configuration credentials
     const firebaseConfig = {
       apiKey: "AIzaSyChx24EPK7w1f7SGVYraI993TkC89ZxiZo",
       authDomain: "wwebsite-ae20b.firebaseapp.com",
@@ -701,12 +453,12 @@
       appId: "1:1073638981689:web:1fceb547ed3704b782cde8"
     };
 
-    // Initialize Global App Connections
+    // Initialize Connection Frameworks
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
     const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
 
-    // Global Operational Context Elements
     let TARGET_MS = 0;
     let START_MS = 0;
     let TOTAL_DURATION = 0;
@@ -714,7 +466,6 @@
     let timerStateIsActive = false;
     let activeUserInstance = null;
 
-    // View Components Binding Nodes
     const maintenanceOverlay = document.getElementById('maintenance-overlay');
     const productionCanvas = document.getElementById('production-canvas');
     const creditsCanvas = document.getElementById('credits-canvas');
@@ -730,13 +481,12 @@
     const overlayMsgEl = document.getElementById('overlay-dynamic-msg');
     const overlayDateLabel = document.getElementById('overlay-date-row-label');
     const liveWrapupFrame = document.getElementById('live-wrapup-frame');
+    const testingModeFrame = document.getElementById('testing-mode-frame');
     
-    // Tab Selectors Binding Nodes
     const tabHome = document.getElementById('tab-home-trigger');
     const tabCredits = document.getElementById('tab-credits-trigger');
     const navLogoHome = document.getElementById('nav-logo-home-trigger');
 
-    // Canvas Frame Setup for Resolution Layer
     const canvas = document.getElementById('confetti-layer');
     const ctx = canvas.getContext('2d');
     let pieces = [];
@@ -776,7 +526,6 @@
 
     function padZero(num) { return String(Math.max(0, num)).padStart(2, '0'); }
 
-    // Countdown Clock Core Loop Handling
     function clockTickExecutor() {
       if (!timerStateIsActive) return;
       const now = Date.now();
@@ -787,6 +536,7 @@
         progressFill.style.width = '100%';
         document.getElementById('overlay-dashboard-panel').style.display = 'none';
         liveWrapupFrame.classList.add('show');
+        testingModeFrame.classList.remove('show');
         initiateConfettiAnimation();
         return;
       }
@@ -814,7 +564,6 @@
         overlayDateLabel.textContent = dataValues.displayText || "";
         overlayMsgEl.innerHTML = dataValues.customMessage ? dataValues.customMessage.replace(/\n/g, '<br>') : "";
 
-        // Determine if targetTime node represents an active sequence structure
         if (dataValues.targetTime && dataValues.targetTime.trim() !== "" && dataValues.targetTime !== "none") {
           TARGET_MS = new Date(dataValues.targetTime).getTime();
           START_MS = new Date(dataValues.startTime).getTime();
@@ -829,7 +578,6 @@
           }
         }
 
-        // Drop down into pure static notice structure (No active clock interface parameters)
         timerStateIsActive = false;
         countdownUiBlock.style.display = 'none';
         liveWrapupFrame.classList.remove('show');
@@ -847,23 +595,29 @@
 
         if (dynamicStatusToken === "ONLINE") {
           statusDotEl.className = "status-dot active-green";
-          // Drop layout lockdown curtains completely out of user frame view
           maintenanceOverlay.style.display = 'none';
-          // Render layout production content canvas structure visible
           productionCanvas.style.display = 'flex';
+          testingModeFrame.classList.remove('show');
+          if (clockLoopId) clearTimeout(clockLoopId);
+        } else if (dynamicStatusToken === "TESTING") {
+          statusDotEl.className = "status-dot active-orange";
+          maintenanceOverlay.style.display = 'flex';
+          productionCanvas.style.display = 'none';
+          creditsCanvas.style.display = 'none';
+          testingModeFrame.classList.add('show');
           if (clockLoopId) clearTimeout(clockLoopId);
         } else {
           statusDotEl.className = "status-dot";
           maintenanceOverlay.style.display = 'flex';
           productionCanvas.style.display = 'none';
           creditsCanvas.style.display = 'none';
+          testingModeFrame.classList.remove('show');
         }
       }
     });
 
-    // ── NAVIGATION & TAB STATE INTERACTION CONTEXT ENGINE ──
+    // ── NAVIGATION HEADER DISPLAY TAB STATE INTERACTION ENGINE ──
     function displayTabSurface(targetTabString) {
-      // Clear active styling signatures across references
       document.querySelectorAll('nav ul li a').forEach(a => a.classList.remove('active'));
       
       if (targetTabString === "HOME") {
@@ -881,13 +635,6 @@
     tabHome.addEventListener('click', () => displayTabSurface("HOME"));
     navLogoHome.addEventListener('click', (e) => { e.preventDefault(); displayTabSurface("HOME"); });
     tabCredits.addEventListener('click', () => displayTabSurface("CREDITS"));
-
-    // Unsupported routes notification handling
-    ['tab-games-trigger', 'tab-status-trigger'].forEach(id => {
-      document.getElementById(id).addEventListener('click', () => {
-        alert("Selected module framework node is currently unallocated in runtime state. Realtime access pending production release.");
-      });
-    });
 
     // ── DATA INGESTION HOOK: COMMUNITY SUGGESTION ROUTINE ──
     const pushActionButton = document.getElementById('console-push-trigger');
@@ -909,7 +656,6 @@
           userId: (activeUserInstance && activeUserInstance.uid) ? activeUserInstance.uid : 'guest'
         });
 
-        // Resolve submission interaction state
         inputAreaField.value = "";
         toastMessageBanner.classList.add('show');
         setTimeout(() => { toastMessageBanner.classList.remove('show'); }, 3000);
@@ -918,27 +664,24 @@
       }
     });
 
-    // ── SECURITY AUTHENTICATION NODE ACCESS MODULE ──
+    // ── MODERN FIREBASE GOOGLE OAUTH SECURITY MODULE ──
     const authGateButton = document.getElementById('auth-gate-trigger');
     const profileAvatarNode = document.getElementById('auth-profile-avatar');
     const profileDropdownContainer = document.getElementById('profile-dropdown-box');
-    const authModalFrame = document.getElementById('security-auth-modal');
-    const closeModalButton = document.getElementById('close-modal-trigger');
-    const authExecutionSubmit = document.getElementById('auth-action-submit');
-    
-    const inputEmail = document.getElementById('auth-email-input');
-    const inputPassword = document.getElementById('auth-pass-input');
 
-    // Session Status Verification Flow
     onAuthStateChanged(auth, (user) => {
       if (user) {
         activeUserInstance = user;
         authGateButton.style.display = 'none';
         profileAvatarNode.style.display = 'flex';
         
-        // Formulate fallback string validation matching identity character signature
-        const userInitial = user.email ? user.email.charAt(0).toUpperCase() : 'W';
-        profileAvatarNode.textContent = userInitial;
+        if (user.photoURL) {
+          profileAvatarNode.style.backgroundImage = `url('${user.photoURL}')`;
+          profileAvatarNode.textContent = "";
+        } else {
+          profileAvatarNode.style.backgroundImage = 'none';
+          profileAvatarNode.textContent = user.displayName ? user.displayName.charAt(0).toUpperCase() : 'W';
+        }
       } else {
         activeUserInstance = null;
         authGateButton.style.display = 'block';
@@ -947,47 +690,20 @@
       }
     });
 
-    authGateButton.addEventListener('click', () => { authModalFrame.classList.add('show'); });
-    closeModalButton.addEventListener('click', () => { authModalFrame.classList.remove('show'); });
+    authGateButton.addEventListener('click', async () => {
+      try {
+        await signInWithPopup(auth, googleProvider);
+      } catch (authError) {
+        alert("Google authentication handshake failure: " + authError.message);
+      }
+    });
     
     profileAvatarNode.addEventListener('click', (e) => {
       e.stopPropagation();
       profileDropdownContainer.classList.toggle('show');
     });
     document.addEventListener('click', () => { profileDropdownContainer.classList.remove('show'); });
-
-    authExecutionSubmit.addEventListener('click', async () => {
-      const mailString = inputEmail.value.trim();
-      const passString = inputPassword.value.trim();
-
-      if(!mailString || !passString) {
-        alert("Identity error: Complete all credentials requirements.");
-        return;
-      }
-
-      try {
-        // Attempt immediate login transaction route mapping
-        await signInWithEmailAndPassword(auth, mailString, passString);
-        authModalFrame.classList.remove('show');
-        inputEmail.value = ""; inputPassword.value = "";
-      } catch (loginError) {
-        // Fallback option auto-generates profile node record registration parameters dynamically on verification miss
-        if (loginError.code === 'auth/user-not-found') {
-          try {
-            await createUserWithEmailAndPassword(auth, mailString, passString);
-            authModalFrame.classList.remove('show');
-            inputEmail.value = ""; inputPassword.value = "";
-          } catch (createError) {
-            alert("Dynamic credential verification registration exception: " + createError.message);
-          }
-        } else {
-          alert("Session access identification reference validation failure: " + loginError.message);
-        }
-      }
-    });
-
     document.getElementById('dropdown-signout').addEventListener('click', () => { signOut(auth); });
-    document.getElementById('dropdown-account-settings').addEventListener('click', () => { alert("Account telemetry adjustment matrices routing locked in current client revision."); });
   </script>
 </body>
 </html>
