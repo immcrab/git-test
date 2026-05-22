@@ -201,15 +201,12 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-    // TODO: Replace with your actual project config properties from Firebase Console
+    // Linked directly to your "wwebsite-ae20b" project database
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_APP_ID"
+      authDomain: "wwebsite-ae20b.firebaseapp.com",
+      databaseURL: "https://wwebsite-ae20b-default-rtdb.firebaseio.com",
+      projectId: "wwebsite-ae20b",
+      storageBucket: "wwebsite-ae20b.appspot.com"
     };
 
     // Initialize Firebase
@@ -298,7 +295,6 @@
     // ── Timer Logic ─────────────────────────────────────────────
     function pad(n) { return String(Math.max(0, n)).padStart(2, '0'); }
 
-    // Use dynamic lines to make breaks neat
     function formatMessageText(text) {
       return text.replace(/\n/g, '<br>');
     }
@@ -350,13 +346,12 @@
         START_MS  = new Date(data.startTime).getTime();
         TOTAL_DURATION = TARGET_MS - START_MS;
         
-        textEl.textContent = data.displayText || "Back online shortly";
+        textEl.textContent = data.displayText || "Updating systems";
         
-        // If 'customMessage' exists in Firebase, use it. Otherwise use the updated default.
         if (data.customMessage) {
           msgEl.innerHTML = formatMessageText(data.customMessage);
         } else {
-          msgEl.innerHTML = "We are currently making some exciting improvements and updating the website!<br>We will be back up and running shortly.<br>Thank you so much for your patience!";
+          msgEl.innerHTML = "We are currently making some exciting improvements and updating the website! We will be back up and running shortly. Thank you so much for your patience!";
         }
 
         if(timerLoopId) clearTimeout(timerLoopId);
