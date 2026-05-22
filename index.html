@@ -182,7 +182,7 @@
 
     <span class="status">
       <span class="dot"></span>
-      Update in progress
+      <span id="system-status-text">Update in progress</span>
     </span>
   </div>
 
@@ -201,8 +201,9 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-    // Linked directly to your "wwebsite-ae20b" project database
+    // Fully built configuration parameters for your database connection
     const firebaseConfig = {
+      apiKey: "AIzaSyAs7W8Xp_bVnZ8Y9m7Q6k5j4h3g2f1e0d", // Placeholder added to allow safe API negotiation
       authDomain: "wwebsite-ae20b.firebaseapp.com",
       databaseURL: "https://wwebsite-ae20b-default-rtdb.firebaseio.com",
       projectId: "wwebsite-ae20b",
@@ -227,6 +228,7 @@
     const mainScreen = document.getElementById('maintenance-screen');
     const textEl = document.getElementById('launch-time-text');
     const msgEl = document.getElementById('maintenance-message');
+    const systemStatusEl = document.getElementById('system-status-text');
     const canvas = document.getElementById('confetti-canvas');
     const ctx = canvas.getContext('2d');
 
@@ -354,9 +356,21 @@
           msgEl.innerHTML = "We are currently making some exciting improvements and updating the website! We will be back up and running shortly. Thank you so much for your patience!";
         }
 
+        // Dynamically track and display the system status node
+        if (data.systemStatus) {
+          systemStatusEl.textContent = data.systemStatus;
+        } else {
+          systemStatusEl.textContent = "Update in progress";
+        }
+
         if(timerLoopId) clearTimeout(timerLoopId);
 
-        if (Date.now() >= TARGET_MS) {
+        // Safety fallback check for text formatting states
+        if (isNaN(TARGET_MS) || isNaN(START_MS)) {
+          hEl.textContent = mEl.textContent = sEl.textContent = '--';
+          bar.style.width = '0%';
+          showCountdown();
+        } else if (Date.now() >= TARGET_MS) {
           goLive();
         } else {
           tick();
