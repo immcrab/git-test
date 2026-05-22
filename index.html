@@ -201,7 +201,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-    // 🌟 FULLY LOADED VALID PRODUCTION CREDENTIALS
+    // Your verified app configuration
     const firebaseConfig = {
       apiKey: "AIzaSyChx24EPK7w1f7SGVYraI993TkC89ZxiZo",
       authDomain: "wwebsite-ae20b.firebaseapp.com",
@@ -341,7 +341,7 @@
       timerLoopId = setTimeout(tick, 1000);
     }
 
-    // ── Firebase Realtime Sync ─────────────────────────────────
+    // ── Firebase Realtime Sync: Countdown Settings ──────────────
     const countdownRef = ref(db, 'countdownSettings');
     onValue(countdownRef, (snapshot) => {
       const data = snapshot.val();
@@ -358,13 +358,6 @@
           msgEl.innerHTML = "We are currently making some exciting improvements and updating the website! We will be back up and running shortly. Thank you so much for your patience!";
         }
 
-        // Realtime dynamic sync for the bottom status field
-        if (data.systemStatus) {
-          systemStatusEl.textContent = data.systemStatus;
-        } else {
-          systemStatusEl.textContent = "Update in progress";
-        }
-
         if(timerLoopId) clearTimeout(timerLoopId);
 
         if (isNaN(TARGET_MS) || isNaN(START_MS)) {
@@ -376,6 +369,17 @@
         } else {
           tick();
         }
+      }
+    });
+
+    // ── Firebase Realtime Sync: Separate System Status Node ─────
+    const systemRef = ref(db, 'system');
+    onValue(systemRef, (snapshot) => {
+      const systemData = snapshot.val();
+      if (systemData && systemData.status) {
+        systemStatusEl.textContent = systemData.status;
+      } else {
+        systemStatusEl.textContent = "Update in progress";
       }
     });
   </script>
